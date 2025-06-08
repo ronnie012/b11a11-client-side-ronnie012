@@ -64,7 +64,7 @@ const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-control mb-4">
             <label className="label"><span className="label-text mr-7">Package Price:</span></label>
-            <input type="text" value={`$${packageDetails.price?.toFixed(2)}`} className="input input-bordered" readOnly />
+            <input type="text" value={`$${packageDetails.price?.toFixed(0)}`} className="input input-bordered" readOnly />
           </div>
           <div className="form-control mb-4">
             <label className="label"><span className="label-text mr-13">Your Name:</span></label>

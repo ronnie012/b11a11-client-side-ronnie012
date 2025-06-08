@@ -107,7 +107,7 @@ const PackageDetailsPage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-6 md:mb-0 lg:mb-6 xl:mb-6">
             <p className="flex items-center text-md"><FaClock className="mr-3 text-accent text-xl" /> <strong>Duration:</strong> <span className="ml-1">{duration || "N/A"}</span></p>
-            <p className="flex items-center text-md"><FaDollarSign className="mr-3 text-accent text-xl" /> <strong>Price:</strong> <span className="ml-1">${price?.toFixed(2) || "N/A"}</span></p>
+            <p className="flex items-center text-md"><FaDollarSign className="mr-3 text-accent text-xl" /> <strong>Price:</strong> <span className="ml-1">${price?.toFixed(0) || "N/A"}</span></p>
             <p className="flex items-center text-md"><FaCalendarAlt className="mr-3 text-accent text-xl" /> <strong>Departure:</strong> <span className="ml-1">{departure_date ? new Date(departure_date).toLocaleDateString() : "N/A"}</span></p>
             <p className="flex items-center text-md"><FaMapMarkerAlt className="mr-3 text-accent text-xl" /> <strong>From:</strong> <span className="ml-1">{departure_location || "N/A"}</span></p>
             <p className="flex items-center text-md"><FaMapMarkerAlt className="mr-3 text-accent text-xl" /> <strong>To:</strong> <span className="ml-1">{destination || "N/A"}</span></p>

@@ -84,7 +84,7 @@ const AddPackagePage = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="duration" className="label"><span className="label-text">Duration (e.g., 3 days)</span></label>
+              <label htmlFor="duration" className="label"><span className="label-text">Duration (e.g., 3 Days, 2 Nights)</span></label>
               <input type="text" name="duration" id="duration" value={formData.duration} onChange={handleChange} className="input input-bordered w-full" required />
             </div>
             <div>
