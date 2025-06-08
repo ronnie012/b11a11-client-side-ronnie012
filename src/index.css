@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+/* @import "tailwindcss/preflight";  */
+/* Replaces @tailwind base */
+
+/* @tailwind base;
+@tailwind components; */
+
+/* @tailwind components is removed in v4 */
+/* @tailwind utilities; */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* You can add global styles here if needed */
+body {
+  font-family: 'Inter', sans-serif; 
+}
+/* Example font */
+
+
+/* Override Swiper's backface-visibility if it's causing issues */
+/* .swiper,
+.swiper-slide {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+} */
+
+/* Ensure Swiper and its wrapper have full height if not already handled by Tailwind h-full */
+/* .swiper, 
+.swiper-wrapper,
+.swiper-slide {
+  height: 100%;
+  min-height: 100%;
+} */
+
+
+
