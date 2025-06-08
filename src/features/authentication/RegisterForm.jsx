@@ -36,10 +36,11 @@ const RegisterForm = () => { // Added signInWithGoogle
         }
 
         try {
+            await createUser(email, password);
             // Create user with email and password
-            const result = await createUser(email, password);
-            const loggedUser = result.user;
-            console.log(loggedUser);
+            // const result = await createUser(email, password);
+            // const loggedUser = result.user;
+            // console.log(loggedUser);
 
             // Update profile with name and photo URL
             await updateUserProfile(name, photoURL);

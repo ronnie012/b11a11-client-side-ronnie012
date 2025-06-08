@@ -110,7 +110,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            console.log('Current User:', currentUser); // Log user state change
+            // console.log('Current User:', currentUser); // Log user state change
             if (currentUser) {
                 fetchAndStoreToken(currentUser);
             } else {
@@ -118,7 +118,7 @@ const AuthProvider = ({ children }) => {
                 localStorage.removeItem('authToken');
                 setToken(null);
                 delete axios.defaults.headers.common['Authorization'];
-                console.log("User is signed out, token cleared.");
+                // console.log("User is signed out, token cleared.");
             }
             setLoading(false); // Set loading to false once state is determined
         });

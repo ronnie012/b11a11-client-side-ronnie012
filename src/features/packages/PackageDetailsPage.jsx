@@ -65,11 +65,12 @@ const PackageDetailsPage = () => {
         throw new Error("User not authenticated or token missing.");
     }
     try {
-      const response = await axios.post(`${API_BASE_URL}/bookings`, bookingData, { 
+      // const response = await axios.post(`${API_BASE_URL}/bookings`, bookingData, { 
+      await axios.post(`${API_BASE_URL}/bookings`, bookingData, { 
         headers: { Authorization: `Bearer ${token}` } 
       });
       toast.success('Booking successful!'); // Simple feedback
-      console.log('Booking successful', response.data);
+      // console.log('Booking successful', response.data);
     } catch (error) {
       console.error('Booking failed', error.response?.data?.message || error.message);
       toast.error(`Booking failed: ${error.response?.data?.message || error.message}`); // Simple feedback
