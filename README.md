@@ -45,7 +45,7 @@ TourZen is a full-stack tour package booking platform designed to connect users 
 **Server-Side:**
 *   Node.js
 *   Express.js
-*   MongoDB (with Mongoose)
+*   MongoDB
 *   JWT (JSON Web Tokens)
 *   Firebase Admin SDK (for verifying Firebase tokens if used for backend auth)
 *   Cors
@@ -65,7 +65,7 @@ react
 react-dom
 react-helmet-async
 react-hook-form
-react-hot-toast
+react-toastify
 react-icons
 react-router
 react-router-dom

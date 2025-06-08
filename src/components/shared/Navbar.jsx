@@ -1,13 +1,12 @@
 import { Link, NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-// import { useContext } from 'react'; // Will be used for AuthContext later
-// import { AuthContext } from '../../contexts/AuthContext'; // Placeholder for AuthContext
+import { useEffect, useState, useContext } from 'react'; // Combined imports
+import { AuthContext } from '../../contexts/AuthContext';
 import logo from '../../assets/logo.png'; // Assuming your logo is here
 
 const Navbar = () => {
-  // const { user, logout } = useContext(AuthContext); // Placeholder
-  const isLoggedIn = false; // Placeholder for login state, set to false for now
+  const { user, logout } = useContext(AuthContext); // Get user and logout from context
 
+  // Theme toggle state and logic
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
 
   const handleToggle = e => {
@@ -45,7 +44,7 @@ const Navbar = () => {
           All Packages
         </NavLink>
       </li>
-      {isLoggedIn && ( // Links for logged-in users
+      {user && ( // Links for logged-in users, check if user exists
         <>
           <li>
             <NavLink
@@ -122,31 +121,36 @@ const Navbar = () => {
           <svg className="swap-on hover:text-green-500 fill-current w-6 h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
         </label>
 
-        {isLoggedIn ? (
+        {user ? ( // Conditionally render based on user existence
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                {/* Replace with user.photoURL or a default image */}
-                <img alt="User profile" src="https://via.placeholder.com/150/0000FF/808080?Text=User" />
+                {/* Use user's photoURL or a fallback avatar */}
+                <img alt="User profile" src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random`} />
               </div>
             </label>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              {/* Display user's name; can be a link to a profile page if planned */}
               <li>
-                <a className="justify-between">
-                  Profile
+                <span className="justify-between font-semibold">
+                  {user?.displayName || 'Profile'}
                   {/* <span className="badge">New</span> */}
-                </a>
+                </span>
               </li>
               <li><Link to="/add-package">Add Package</Link></li>
               <li><Link to="/manage-my-packages">Manage My Packages</Link></li>
-              {/* <li><button onClick={logout}>Logout</button></li> */}
-              <li><a>Logout</a></li> {/* Placeholder for logout */}
+              <li><button onClick={logout} className="btn btn-ghost btn-sm w-full justify-start">Logout</button></li>
             </ul>
           </div>
         ) : (
-          <Link to="/login" className="btn btn-outline btn-primary btn-sm md:btn-md">
-            Login
-          </Link>
+          <>
+            <Link to="/login" className="btn btn-outline btn-success btn-xs md:btn-sm lg:btn-md mr-2">
+              Login
+            </Link>
+            <Link to="/register" className="btn btn-outline btn-primary btn-xs md:btn-sm lg:btn-md">
+              Register
+            </Link>
+          </>
         )}
       </div>
     </div>

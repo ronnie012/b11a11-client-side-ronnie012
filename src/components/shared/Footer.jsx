@@ -21,7 +21,7 @@ const Footer = () => {
           <Link to="/" className="flex items-center text-2xl font-bold text-success hover:text-orange-500 ">
             <img src={logo} alt="TourZen Logo" className="h-13 w-15 mr-2" />TourZen</Link> {/* Changed text-success to text-primary for consistency */}
           <p>Your Adventure Starts Here</p>
-          <p>123 Adventure Lane, Wanderlust City, TR 45678</p>
+          <p>123 Adventure Lane, Wanderlust City, BC.</p>
         </aside>
         {/* Section 3: Social Links */}
         <nav className="flex flex-col items-center sm:items-start w-full">
