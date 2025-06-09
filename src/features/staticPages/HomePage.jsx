@@ -88,7 +88,8 @@ const HomePage = () => {
             {/* Your Overlay */}
             <div className="absolute inset-0   flex flex-col items-center justify-center text-center p-4 z-10 bg-[rgba(0,0,0,0.5)]">
               <h1 className="mb-5 text-4xl md:text-5xl font-bold text-white">{pkg.tour_name}</h1>
-              <p className="mb-8 text-lg text-gray-200 max-w-lg">
+              <p className='text-white max-w-6xl mb-4'>{pkg.package_details}</p>
+              <p className="mb-4 text-lg text-white max-w-lg">
                 Duration: {pkg.duration} | Departure: {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'}
               </p>
               <div className="flex flex-col gap-4 items-center">
