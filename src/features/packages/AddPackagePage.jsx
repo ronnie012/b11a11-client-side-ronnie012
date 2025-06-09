@@ -19,6 +19,8 @@ const AddPackagePage = () => {
     package_details: '', // Description
     guide_name: '',
     guide_photo: '', // URL for guide's photo
+    guide_email: '', // New field for guide's email
+    guide_contact_no: '', // New field for guide's contact number
   });
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +59,8 @@ const AddPackagePage = () => {
         package_details: '',
         guide_name: '',
         guide_photo: '',
+        guide_email: '',
+        guide_contact_no: '',
       });
     } catch (error) {
       console.error("Failed to add package:", error.response?.data?.message || error.message);
@@ -119,7 +123,14 @@ const AddPackagePage = () => {
             <label htmlFor="guide_photo" className="label"><span className="label-text">Guide Photo URL (Optional)</span></label>
             <input type="url" name="guide_photo" id="guide_photo" value={formData.guide_photo} onChange={handleChange} className="input input-bordered w-full" placeholder="https://example.com/guide.jpg" />
           </div>
-
+                    <div>
+            <label htmlFor="guide_contact_no" className="label"><span className="label-text">Guide Contact Number</span></label>
+            <input type="tel" name="guide_contact_no" id="guide_contact_no" value={formData.guide_contact_no} onChange={handleChange} className="input input-bordered w-full" placeholder="+1234567890" />
+          </div>
+          <div>
+            <label htmlFor="guide_email" className="label"><span className="label-text">Guide Email</span></label>
+            <input type="email" name="guide_email" id="guide_email" value={formData.guide_email} onChange={handleChange} className="input input-bordered w-full" placeholder="guide@example.com" />
+          </div>
           <div>
             <button type="submit" className="btn btn-success w-full" disabled={loading}>
               {loading ? <span className="loading loading-spinner"></span> : 'Add Package'}

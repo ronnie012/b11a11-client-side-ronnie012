@@ -24,9 +24,10 @@ const UpdatePackagePage = () => {
     price: '',
     departure_date: '',
     package_details: '',
-    // Guide info is typically not updated by the user directly here if it's tied to their profile
-    // but if it was part of the original form and can be changed, include it.
-    // For now, we'll assume guide_name and guide_photo are derived or not directly editable in this form.
+    guide_name: '',
+    guide_photo: '',
+    guide_email: '',
+    guide_contact_no: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -41,6 +42,10 @@ const UpdatePackagePage = () => {
         price: packageDetails.price || '',
         departure_date: packageDetails.departure_date ? new Date(packageDetails.departure_date).toISOString().split('T')[0] : '', // Format for date input
         package_details: packageDetails.package_details || '',
+        guide_name: packageDetails.guide_name || '',
+        guide_photo: packageDetails.guide_photo || '',
+        guide_email: packageDetails.guide_email || '',
+        guide_contact_no: packageDetails.guide_contact_no || '',
       });
     }
   }, [packageDetails]);
@@ -123,6 +128,24 @@ const UpdatePackagePage = () => {
           <div>
             <label htmlFor="package_details" className="label"><span className="label-text">Package Details</span></label>
             <textarea name="package_details" id="package_details" value={formData.package_details} onChange={handleChange} className="textarea textarea-bordered w-full h-32" required></textarea>
+          </div>
+
+          <h2 className="text-xl font-semibold pt-4 border-t border-base-300">Guide Information</h2>
+          <div>
+            <label htmlFor="guide_name" className="label"><span className="label-text">Guide Name</span></label>
+            <input type="text" name="guide_name" id="guide_name" value={formData.guide_name} onChange={handleChange} className="input input-bordered w-full" />
+          </div>
+          <div>
+            <label htmlFor="guide_photo" className="label"><span className="label-text">Guide Photo URL (Optional)</span></label>
+            <input type="url" name="guide_photo" id="guide_photo" value={formData.guide_photo} onChange={handleChange} className="input input-bordered w-full" placeholder="https://example.com/guide.jpg" />
+          </div>
+          <div>
+            <label htmlFor="guide_contact_no" className="label"><span className="label-text">Guide Contact Number</span></label>
+            <input type="tel" name="guide_contact_no" id="guide_contact_no" value={formData.guide_contact_no} onChange={handleChange} className="input input-bordered w-full" placeholder="+1234567890" />
+          </div>
+          <div>
+            <label htmlFor="guide_email" className="label"><span className="label-text">Guide Email</span></label>
+            <input type="email" name="guide_email" id="guide_email" value={formData.guide_email} onChange={handleChange} className="input input-bordered w-full" placeholder="guide@example.com" />
           </div>
 
           <div>

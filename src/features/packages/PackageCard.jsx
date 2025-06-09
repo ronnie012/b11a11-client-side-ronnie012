@@ -5,6 +5,8 @@ import {
   FaDollarSign,
   FaClock,
   FaUserCircle,
+  FaPhone,
+  FaEnvelope,
 } from "react-icons/fa";
 
 const PackageCard = ({ packageData }) => {
@@ -17,6 +19,8 @@ const PackageCard = ({ packageData }) => {
     duration,
     price,
     departure_date,
+    guide_contact_no, // Add this
+    guide_email,      // Add this
   } = packageData;
 
   return (
@@ -74,6 +78,12 @@ const PackageCard = ({ packageData }) => {
                 <FaDollarSign className="mr-2 text-success text-lg" />
                 Price: {price?.toFixed(0) || "N/A"}
               </p>
+              {guide_contact_no && (
+                <p className="flex items-center text-xs"><FaPhone className="mr-2 text-gray-500" /> {guide_contact_no}</p>
+              )}
+              {guide_email && (
+                <p className="flex items-center text-xs"><FaEnvelope className="mr-2 text-gray-500" /> {guide_email}</p>
+              )}
 
             </div>
             {/* Button on the right */}
