@@ -29,7 +29,7 @@ const MyBookingsPage = () => {
     }
     try {
       await axios.patch(`${API_BASE_URL}/bookings/${bookingId}/status`, 
-        { status: 'Accepted' },
+        { status: 'Completed' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success('Booking confirmed successfully!');
