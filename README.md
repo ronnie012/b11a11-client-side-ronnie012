@@ -22,8 +22,8 @@ TourZen is a full-stack tour package booking platform designed to connect users 
 
 ## Live URL
 
-*   **Client:** https://
-*   **Server:** https://
+*   **Client:** https://tour-zen-012.web.app/
+*   **Server:** https://tour-zen-server.vercel.app/
 
 
 ## Tech Stack
