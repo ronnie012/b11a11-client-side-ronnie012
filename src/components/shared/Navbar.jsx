@@ -8,6 +8,8 @@ const Navbar = () => {
 
   // Theme toggle state and logic
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   const handleToggle = e => {
     if (e.target.checked) {
@@ -20,7 +22,19 @@ const Navbar = () => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
     document.querySelector('html').setAttribute('data-theme', theme);
-  }, [theme]);
+
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      // Show navbar if scrolling up or if at the very top (less than 10px from top)
+      // Hide if scrolling down and not near the top
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [theme, prevScrollPos]); // Add prevScrollPos to the dependency array
 
   const navLinks = (
     <>
@@ -72,7 +86,11 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-4 md:px-8">
+    <div
+      className={`navbar shadow-sm sticky z-50 px-4 md:px-8 transition-all duration-300 ease-in-out 
+                  ${visible ? 'top-0 bg-base-100/60 backdrop-blur-md' : '-top-24 bg-base-100/60 backdrop-blur-md'} 
+                  dark:bg-base-100/50 dark:backdrop-blur-xs`} // Adjusted opacity for dark mode if needed
+    >
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
