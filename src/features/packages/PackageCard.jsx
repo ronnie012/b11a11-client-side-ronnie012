@@ -9,7 +9,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 
-const PackageCard = ({ packageData }) => {
+const PackageCard = ({ packageData, showGuideEmail = true, showGuideContactNo = true }) => {
   const {
     _id,
     tour_name,
@@ -24,7 +24,7 @@ const PackageCard = ({ packageData }) => {
   } = packageData;
 
   return (
-    <div className="card bg-base-100 shadow-xl transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-105 hover:ring-2 hover:ring-success hover:ring-opacity-60">
+    <div className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 ring-2 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-100 ease-in-out">
       <figure className="h-56 overflow-hidden">
         <img
           src={
@@ -38,7 +38,7 @@ const PackageCard = ({ packageData }) => {
         {" "}
         {/* Added flex flex-col for better button positioning control */}
         <h2
-          className="card-title text-2xl text-success font-bold truncate"
+          className="card-title text-2xl  font-bold truncate"
           title={tour_name}
         >
           {tour_name}
@@ -48,12 +48,12 @@ const PackageCard = ({ packageData }) => {
             <img
               src={guide_photo}
               alt={guide_name}
-              className="w-6 h-6 rounded-full mr-2 object-cover"
+              className="w-10 rounded-full mr-2 object-cover"
             />
           ) : (
             <FaUserCircle className="w-6 h-6 mr-2 text-gray-400" />
           )}
-          <span>{guide_name || "N/A"}</span>
+          <span className="text-lg text-base-content/80 dark:text-base-content/70 font-semibold">{guide_name || "N/A"}</span>
         </div>
         {/* CloThis container will hold details and button, allowing them to be side-by-side at the bottom */}
         {/* flex-grow pushes this block to the bottom of the card-body if content above is short */}
@@ -61,7 +61,7 @@ const PackageCard = ({ packageData }) => {
           <div className="flex items-end justify-between">
             {" "}
             {/* Aligns details and button on the same line, items-end aligns their bottoms */}
-            <div className="space-y-2 text-sm font-bold">
+            <div className="space-y-2 text-lg text-base-content/80 dark:text-base-content/70 font-bold">
               {" "}
               {/* Details on the left */}
               <p className="flex items-center">
@@ -73,22 +73,22 @@ const PackageCard = ({ packageData }) => {
                 {departure_date
                   ? new Date(departure_date).toLocaleDateString()
                   : "N/A"}
-              </p>
+              </p> 
               <p className="flex items-center">
                 <FaDollarSign className="mr-2 text-success text-lg" />
                 Price: {price?.toFixed(0) || "N/A"}
               </p>
-              {guide_contact_no && (
+              {showGuideContactNo && guide_contact_no && (
                 <p className="flex items-center text-xs"><FaPhone className="mr-2 text-gray-500" /> {guide_contact_no}</p>
               )}
-              {guide_email && (
+              {showGuideEmail && guide_email && (
                 <p className="flex items-center text-xs"><FaEnvelope className="mr-2 text-gray-500" /> {guide_email}</p>
               )}
 
             </div>
             {/* Button on the right */}
             <div className="card-actions">
-              <Link to={`/package/${_id}`} className="btn btn-success btn-outline rounded-xl hover:bg-neutral hover:text-orange-500   hover:border-orange-500  xl:btn-md lg:btn-md btn-sm">
+              <Link to={`/package/${_id}`} className="btn btn-outline btn-success hover:text-orange-500 hover:border-orange-500 hover:bg-neutral btn-sm ">
                 View Details
               </Link>
             </div>
@@ -101,6 +101,8 @@ const PackageCard = ({ packageData }) => {
 
 PackageCard.propTypes = {
   packageData: PropTypes.object.isRequired,
+  showGuideEmail: PropTypes.bool,
+  showGuideContactNo: PropTypes.bool,
 };
 
 export default PackageCard;

@@ -150,37 +150,37 @@ const HomePage = () => {
             <p className="text-center text-gray-500">No featured packages available at the moment.</p>
           )}
           {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {featuredPackages.map(pkg => (
-                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-105 hover:ring-2 hover:ring-orange-500  transition-all duration-300 ease-in-out">
+                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-100 ease-in-out">
                   <figure className="h-60 overflow-hidden">
                     <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover" />
                   </figure>
                   <div className="card-body">
-                    <h3 className="card-title text-2xl">{pkg.tour_name}</h3>
+                    <h2 className="card-title text-2xl">{pkg.tour_name}</h2>
                     <div className="flex items-center mt-2">
                       <div className="avatar mr-3">
                         <div className="w-10 rounded-full">
                           <img src={pkg.guide_photo || 'https://via.placeholder.com/40x40.png?text=G'} alt={pkg.guide_name} />
                         </div>
                       </div>
-                      <span className="text-base-content/80 dark:text-base-content/70 font-semibold">{pkg.guide_name || 'N/A'}</span>
+                      <span className="text-lg text-base-content/80 dark:text-base-content/70 font-semibold">{pkg.guide_name || 'N/A'}</span>
                     </div>
                     {/* Group for Duration, Departure, and Price with consistent y-spacing */}
-                    <div className="space-y-1 mt-3"> {/* Adjust space-y-1 or space-y-2 as needed */}
-                      <p className="flex items-center text-lg text-base-content/70 dark:text-base-content/60">
+                    <div className="space-y-1 mt-3 text-lg text-base-content/80 dark:text-base-content/70 font-bold"> {/* Apply common styles here */}
+                      <p className="flex items-center"> {/* Inherit styles from parent */}
                         <FaClock className="mr-2 text-blue-400 text-lg" />
-                        <span className="font-medium text-base-content/90 dark:text-base-content/80 mr-1">Duration:</span> {pkg.duration || 'N/A'}
+                        <span className="font-semibold mr-1">Duration:</span> {pkg.duration || 'N/A'} {/* Changed to font-semibold */}
                       </p>
-                      <p className="flex items-center text-lg text-base-content/70 dark:text-base-content/60">
+                      <p className="flex items-center"> {/* Inherit styles from parent */}
                         <FaCalendarAlt className="mr-2 text-red-500 text-lg" />
-                        <span className="font-medium text-base-content/90 dark:text-base-content/80 mr-1">Departure:</span> {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'}
+                        <span className="font-semibold mr-1">Departure:</span> {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'} {/* Changed to font-semibold */}
                       </p>
                       {/* Container for Price and View Details button */}
                       <div className="flex justify-between items-center mt-2">
-                        <div className="flex items-center text-lg text-base-content/70 dark:text-base-content/60">
+                        <div className="flex items-center"> {/* Inherit styles from parent */}
                           <FaDollarSign className="mr-1 text-success text-2xl" />
-                          <span className="text-lg text-base-content/90 dark:text-base-content/80 font-semibold"> Price: {pkg.price?.toFixed(0) || 'N/A'}</span>
+                          <span className="font-semibold"> Price: {pkg.price?.toFixed(0) || 'N/A'}</span>
                         </div>
                         <Link to={`/package/${pkg._id}`} className="btn btn-outline btn-success hover:text-orange-500 hover:border-orange-500 hover:bg-neutral btn-sm">
                           View Details
@@ -194,8 +194,8 @@ const HomePage = () => {
           )}
           {/* Show All button */}
           <div className="text-center mt-12">
-            <Link to="/all-packages" className="btn btn-success btn-wide">
-              Show All Packages
+            <Link to="/all-packages" className="btn btn-success text-lg btn-wide hover:btn-warning">
+              Show All
             </Link>
           </div>
         </div>
