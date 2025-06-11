@@ -35,10 +35,10 @@ TourZen is a full-stack tour package booking platform designed to connect users 
 *   DaisyUI
 *   React Router DOM
 *   Firebase Authentication
-*   React Hook Form (Optional but planned)
-*   Framer Motion (Optional but planned)
+*   React Hook Form
+*   Framer Motion
 *   React Icons
-*   React Hot Toast
+*   React Toastify
 *   SweetAlert2
 *   React Helmet Async
 
@@ -47,7 +47,7 @@ TourZen is a full-stack tour package booking platform designed to connect users 
 *   Express.js
 *   MongoDB
 *   JWT (JSON Web Tokens)
-*   Firebase Admin SDK (for verifying Firebase tokens if used for backend auth)
+*   Firebase Admin SDK (for verifying Firebase tokens used for backend auth)
 *   Cors
 *   Dotenv
 
@@ -59,8 +59,6 @@ TourZen is a full-stack tour package booking platform designed to connect users 
 axios
 firebase
 framer-motion
-localforage
-match-sorter
 react
 react-dom
 react-helmet-async
@@ -69,9 +67,9 @@ react-toastify
 react-icons
 react-router
 react-router-dom
-sort-by
 sweetalert2
 tailwindcss
+yet-another-react-lightbox
 ```
 
 

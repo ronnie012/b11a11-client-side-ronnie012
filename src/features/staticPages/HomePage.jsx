@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 import { FaMapMarkedAlt, FaUsers, FaShieldAlt, FaRegThumbsUp, FaQuoteLeft, FaStar, FaClock, FaCalendarAlt, FaDollarSign } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react'; // Import React, useEffect, useRef, and useState
 import useFeaturedPackages from '../packages/useFeaturedPackages'; // Import the new hook
+import { motion } from 'framer-motion'; // Import motion
+
+// Import Lightbox
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+// Optional: if you want lightbox plugins like thumbnails, zoom, etc.
+// import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+// import Zoom from "yet-another-react-lightbox/plugins/zoom";
+// import "yet-another-react-lightbox/plugins/thumbnails.css";
+
 import LoadingSpinner from '../../components/shared/LoadingSpinner'; // Assuming you have this
 
 const HomePage = () => {
@@ -24,6 +34,9 @@ const HomePage = () => {
   // Data for banner carousel - will use featuredPackages directly
   const carouselRef = useRef(null);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  // State for Lightbox
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   useEffect(() => {
     if (!carouselRef.current || !featuredPackages || featuredPackages.length === 0) {
@@ -157,7 +170,7 @@ const HomePage = () => {
                     <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover" />
                   </figure>
                   <div className="card-body">
-                    <h2 className="card-title text-2xl">{pkg.tour_name}</h2>
+                    <h3 className="card-title text-2xl">{pkg.tour_name}</h3>
                     <div className="flex items-center mt-2">
                       <div className="avatar mr-3">
                         <div className="w-10 rounded-full">
@@ -206,18 +219,67 @@ const HomePage = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Why Choose TourZen?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {whyChooseUsFeatures.map(feature => (
-              <div key={feature.title} className="card bg-base-100 shadow-lg text-center p-6 hover:shadow-xl transition-shadow duration-300">
+            {whyChooseUsFeatures.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                className="card bg-base-100 shadow-lg text-center p-6 hover:shadow-xl transition-shadow duration-300"
+                initial={{ opacity: 0, y: 50 }} // Start invisible and 50px down
+                whileInView={{ opacity: 1, y: 0 }} // Animate to visible and original position when in view
+                viewport={{ once: true, amount: 0.3 }} // Trigger animation once when 30% of element is in view
+                transition={{ duration: 1.5, delay: index * 0.3 }} // Stagger animation
+              >
                 <div className="flex justify-center">
                   {feature.icon}
                 </div> {/* Adjusted text color for description */}
                 <h3 className="text-xl font-semibold mt-4 mb-2">{feature.title}</h3>
                 <p className="text-base-content/70 dark:text-base-content/60 text-sm">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Tour Gallery Section with Lightbox */}
+      {featuredPackages && featuredPackages.length > 0 && (
+        <section className="py-16 bg-base-200">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold text-center mb-12">Tour Gallery</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {featuredPackages.slice(0, 10).map((pkg, index) => ( // Displaying up to 10 images in the grid
+                <div
+                  key={`gallery-thumb-${pkg._id}`}
+                  className="aspect-square overflow-hidden rounded-lg shadow-lg cursor-pointer group"
+                  onClick={() => {
+                    setLightboxIndex(index);
+                    setLightboxOpen(true);
+                  }}
+                >
+                  <figure className="w-full h-full">
+                    <img
+                      src={pkg.image || "https://via.placeholder.com/300x300.png?text=Tour+Image"}
+                      alt={`Gallery image for ${pkg.tour_name}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </figure>
+                </div>
+              ))}
+            </div>
+            {lightboxOpen && (
+              <Lightbox
+                open={lightboxOpen}
+                close={() => setLightboxOpen(false)}
+                index={lightboxIndex}
+                slides={featuredPackages.slice(0, 10).map(pkg => ({
+                  src: pkg.image || "https://via.placeholder.com/1200x800.png?text=Tour+Image",
+                  alt: pkg.tour_name,
+                  title: pkg.tour_name,
+                }))}
+                // plugins={[Thumbnails, Zoom]} // Optional: add plugins
+              />
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Customer Testimonials Section */}
       <section className="py-16 bg-base-100">
