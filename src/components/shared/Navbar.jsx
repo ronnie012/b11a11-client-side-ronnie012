@@ -122,7 +122,7 @@ const Navbar = () => {
               />
             </svg>
           </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100/80 backdrop-blur-md rounded-box w-52 dark:bg-base-200/70">
             {navLinks}
           </ul>
         </div>
@@ -178,7 +178,7 @@ const Navbar = () => {
                   </div>
                 )}
               </label>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100/80 backdrop-blur-md rounded-box w-52 dark:bg-base-200/70">
                 {/* Display user's name; can be a link to a profile page if planned */}
                 <li>
                   <span className="justify-between font-semibold">

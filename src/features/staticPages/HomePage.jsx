@@ -108,21 +108,30 @@ const HomePage = () => {
                   alt={pkg.tour_name}
                   onError={(e) => { console.error(`Image failed to load: ${pkg.image}`, e.target.onerror, e.target.src); e.target.style.display='none'; }}
                 />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-10 bg-[rgba(0,0,0,0.5)]">
-                  <h1 className="mb-5 text-4xl md:text-5xl font-bold text-white">{pkg.tour_name}</h1>
-                  <p className='text-white max-w-6xl mb-4'>{pkg.package_details}</p>
-                  <p className="mb-4 text-lg text-white max-w-lg">
+                {/* Overlay Content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-2 sm:p-4 z-10 bg-[rgba(0,0,0,0.5)]">
+                  <h1 className="mb-2 sm:mb-3 text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+                    {pkg.tour_name}
+                  </h1>
+                  <p className='text-white text-xs sm:text-sm md:text-base max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-6xl mb-2 sm:mb-4 line-clamp-2 sm:line-clamp-3'>
+                    {pkg.package_details}
+                  </p>
+                  <p className="mb-2 sm:mb-4 text-xs sm:text-sm md:text-lg text-white max-w-xs sm:max-w-md md:max-w-lg">
                     Duration: {pkg.duration} | Departure: {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'}
                   </p>
-                  <div className="flex flex-col gap-4 items-center">
-                    <Link to={`/package/${pkg._id}`} className="btn btn-success btn-outline hover:btn-warning">View Details</Link>
-                    <Link to="/all-packages" className="btn btn-outline hover:btn-accent btn-warning">Explore All Packages</Link>
+                  <div className="flex flex-col  gap-2 sm:gap-3 items-center">
+                    <Link to={`/package/${pkg._id}`} className="btn btn-xs sm:btn-sm btn-success btn-outline hover:btn-warning">
+                      View Details
+                    </Link>
+                    <Link to="/all-packages" className="btn btn-xs sm:btn-sm btn-outline hover:btn-accent btn-warning">
+                      Explore All Packages
+                    </Link>
                   </div>
                 </div>
-                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 z-20">
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-2 right-2 sm:left-3 sm:right-3 top-1/2 z-20">
                   <a
                     href={`#slide${index === 0 ? featuredPackages.length : index}`}
-                    className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10"
+                    className="btn btn-ghost btn-sm text-xl text-white hover:text-orange-500 border-none hover:bg-white/10 px-1"
                     onClick={(e) => {
                       e.preventDefault();
                       const prevSlide = index === 0 ? featuredPackages.length - 1 : index - 1;
@@ -133,7 +142,7 @@ const HomePage = () => {
                   </a>
                   <a
                     href={`#slide${index + 2 > featuredPackages.length ? 1 : index + 2}`}
-                    className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10"
+                    className="btn btn-ghost btn-sm text-xl text-white hover:text-orange-500 border-none hover:bg-white/10 px-1"
                     onClick={(e) => {
                       e.preventDefault();
                       const nextSlide = (index + 1) % featuredPackages.length;
@@ -174,7 +183,7 @@ const HomePage = () => {
           {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {featuredPackages.map(pkg => (
-                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-100 ease-in-out">
+                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-1 ease-in-out hover:cursor-pointer">
                   <figure className="h-60 overflow-hidden">
                     <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover rounded-lg" />
                   </figure>
@@ -202,7 +211,7 @@ const HomePage = () => {
                       <div className="flex justify-between items-center mt-2">
                         <div className="flex items-center"> {/* Inherit styles from parent */}
                           <FaDollarSign className="mr-1 text-success text-2xl" />
-                          <span className="font-semibold"> Price: {pkg.price?.toFixed(0) || 'N/A'}</span>
+                          <span className="font-semibold"> Price: $ {pkg.price?.toFixed(0) || 'N/A'}</span>
                         </div>
                         <Link to={`/package/${pkg._id}`} className="btn btn-outline btn-success hover:text-orange-500 hover:border-orange-500 hover:bg-neutral btn-sm">
                           View Details
@@ -231,7 +240,7 @@ const HomePage = () => {
             {whyChooseUsFeatures.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="card bg-base-100 shadow-xl text-center p-6 hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500"
+                className="card bg-base-100 shadow-xl text-center p-6 hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500  hover:cursor-pointer"
                 initial={{ opacity: 0, y: 50 }} // Start invisible and 50px down
                 whileInView={{ opacity: 1, y: 0 }} // Animate to visible and original position when in view
                 viewport={{ once: true, amount: 0.3 }} // Trigger animation once when 30% of element is in view
@@ -298,7 +307,7 @@ const HomePage = () => {
           <h2 className="text-4xl font-bold text-center mb-8">Hear From Our Happy Travelers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (
-              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500">
+              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500  hover:cursor-pointer">
                 <div className="avatar mb-4">
                   <div className="w-20 rounded-full ring ring-success ring-offset-base-100 ring-offset-2">
                     <img src={testimonial.image} alt={testimonial.author} />
