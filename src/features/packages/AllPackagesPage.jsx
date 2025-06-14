@@ -9,7 +9,7 @@ const AllPackagesPage = () => {
   const { packages, loading, error } = usePackages(searchTerm);
 
   return (
-    <div className="container mx-auto px-4 py-0">
+    <div className="container mx-auto px-4 py-0 mb-6">
       <Helmet>
         <title>All Tour Packages{searchTerm ? ` matching "${searchTerm}"` : ''} | TourZen</title>
       </Helmet>

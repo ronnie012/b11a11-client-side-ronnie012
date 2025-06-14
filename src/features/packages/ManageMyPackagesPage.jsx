@@ -66,7 +66,7 @@ const ManageMyPackagesPage = () => {
       <Helmet>
         <title>Manage My Packages - TourZen</title>
       </Helmet>
-      <h1 className="text-5xl font-bold mb-6 text-center text-success">Manage My Packages</h1>
+      <h1 className="xl:text-5xl lg:text-5xl md:text-5xl text-4xl font-bold mb-8 text-center text-success">Manage My Packages</h1>
       
       {loading && packages.length > 0 && <div className="text-center my-0"><span className="loading loading-dots loading-md"></span></div>}
 

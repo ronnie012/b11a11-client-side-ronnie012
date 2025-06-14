@@ -104,9 +104,9 @@ const Navbar = () => {
                   ${visible ? 'top-0 bg-base-100/60 backdrop-blur-md' : '-top-24 bg-base-100/60 backdrop-blur-md'} 
                   dark:bg-base-100/50 dark:backdrop-blur-xs`} // Adjusted opacity for dark mode if needed
     >
-      <div className="navbar-start">
+      <div className="navbar-start flex-1"> {/* Allow start to grow, its content will be at its start */}
         <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+          <label tabIndex={0} className="btn btn-ghost lg:hidden px-1"> {/* Reduced horizontal padding */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -126,19 +126,19 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <Link to="/" className=" text-xl md:text-2xl text-success hover:text-orange-500 font-bold flex items-center">
+        <Link to="/" className="text-lg sm:text-xl md:text-2xl text-success hover:text-orange-500 font-bold flex items-center ml-1 sm:ml-2"> {/* Adjusted size and margin */}
           {/* Add logo image */}
-          <img src={logo} alt="TourZen Logo" className="h-8 w-9 mr-2 rounded-lg" /> {/* Adjust size and margin as needed */}
+          <img src={logo} alt="TourZen Logo" className="h-6 w-7 sm:h-8 sm:w-9 mr-1 sm:mr-2 rounded-lg" /> {/* Responsive logo size */}
           {/* Site Name */}
           TourZen
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-2">{navLinks}</ul>
+      <div className="navbar-center hidden lg:flex"> {/* Removed flex-1; it will take its content's width and be centered by its siblings */}
+        <ul className="menu menu-horizontal flex-nowrap px-1 space-x-1 xl:space-x-2">{navLinks}</ul> {/* Added flex-nowrap */}
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end flex-1"> {/* Allow end to grow, its content will be at its end (due to navbar-end style) */}
         {/* Theme Toggle */}
-        <label className="swap swap-rotate mr-2 md:mr-4">
+        <label className="swap swap-rotate mr-1 sm:mr-2 md:mr-4"> {/* Adjusted margin */}
           <input
             type="checkbox"
             onChange={handleToggle}
@@ -147,9 +147,9 @@ const Navbar = () => {
             value="synthwave" // Can be any theme name, actual theme is controlled by data-theme
           />
           {/* sun icon */}
-          <svg className="swap-off hover:text-orange-500 fill-current w-6 h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29l.71-.71a1,1,0,0,0-1.41-1.41l-.71.71A1,1,0,0,0,5.64,7.05ZM12,15a5,5,0,1,0,5-5A5,5,0,0,0,12,15Zm12.71,1.29a1,1,0,0,0-.7.29l-.71.71a1,1,0,1,0,1.41,1.41l.71-.71a1,1,0,0,0,0-1.41ZM20,12a1,1,0,0,0-1-1H18a1,1,0,0,0,0,2h1A1,1,0,0,0,20,12ZM18.36,7.05a1,1,0,0,0-.7-.29,1,1,0,0,0-.71.29l-.71.71a1,1,0,0,0,1.41,1.41l.71-.71A1,1,0,0,0,18.36,7.05ZM12,9a3,3,0,1,1,3,3A3,3,0,0,1,12,9Zm7.05,6.36a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29l.71-.71a1,1,0,1,0-1.41-1.41l-.71.71A1,1,0,0,0,19.05,15.36ZM15,12a1,1,0,0,0-1-1H13a1,1,0,0,0,0,2h1A1,1,0,0,0,15,12Z"/></svg>
+          <svg className="swap-off hover:text-orange-500 fill-current w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29l.71-.71a1,1,0,0,0-1.41-1.41l-.71.71A1,1,0,0,0,5.64,7.05ZM12,15a5,5,0,1,0,5-5A5,5,0,0,0,12,15Zm12.71,1.29a1,1,0,0,0-.7.29l-.71.71a1,1,0,1,0,1.41,1.41l.71-.71a1,1,0,0,0,0-1.41ZM20,12a1,1,0,0,0-1-1H18a1,1,0,0,0,0,2h1A1,1,0,0,0,20,12ZM18.36,7.05a1,1,0,0,0-.7-.29,1,1,0,0,0-.71.29l-.71.71a1,1,0,0,0,1.41,1.41l.71-.71A1,1,0,0,0,18.36,7.05ZM12,9a3,3,0,1,1,3,3A3,3,0,0,1,12,9Zm7.05,6.36a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29l.71-.71a1,1,0,1,0-1.41-1.41l-.71.71A1,1,0,0,0,19.05,15.36ZM15,12a1,1,0,0,0-1-1H13a1,1,0,0,0,0,2h1A1,1,0,0,0,15,12Z"/></svg>
           {/* moon icon */}
-          <svg className="swap-on hover:text-green-500 fill-current w-6 h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+          <svg className="swap-on hover:text-green-500 fill-current w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
         </label>
 
         {loading ? (
@@ -158,7 +158,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 {user.photoURL && !avatarImgError ? (
-                  <div className="w-10 rounded-full">
+                  <div className="w-8 sm:w-10 rounded-full"> {/* Responsive avatar size */}
                     <img
                       alt="User profile"
                       src={user.photoURL}
@@ -168,7 +168,7 @@ const Navbar = () => {
                 ) : (
                   // Use DaisyUI's avatar placeholder structure for better theme handling and centering
                   <div className="avatar placeholder">
-                    <div className="w-8 h-8 rounded-full bg-base-200 text-base-content border border-base-600 flex items-center justify-center"
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-base-200 text-base-content border border-base-600 flex items-center justify-center" // Responsive placeholder size
                          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <span className="text-md font-semibold leading-none"
                               style={{ lineHeight: 1, display: 'inline-block' }}>
@@ -178,7 +178,7 @@ const Navbar = () => {
                   </div>
                 )}
               </label>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100/80 backdrop-blur-md rounded-box w-52 dark:bg-base-200/70">
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100/80 backdrop-blur-md rounded-box w-48 sm:w-52 dark:bg-base-200/70"> {/* Responsive dropdown width */}
                 {/* Display user's name; can be a link to a profile page if planned */}
                 <li>
                   <span className="justify-between font-semibold">
@@ -207,10 +207,10 @@ const Navbar = () => {
             </div>
         ) : (
           <>
-            <Link to="/login" className="btn btn-outline btn-success btn-xs md:btn-sm lg:btn-md mr-2">
+            <Link to="/login" className="btn btn-outline btn-success btn-xs sm:btn-sm mr-1 sm:mr-2"> {/* Responsive button size and margin */}
               Login
             </Link>
-            <Link to="/register" className="btn btn-outline btn-primary btn-xs md:btn-sm lg:btn-md">
+            <Link to="/register" className="btn btn-outline btn-primary btn-xs sm:btn-sm"> {/* Responsive button size */}
               Register
             </Link>
           </>
