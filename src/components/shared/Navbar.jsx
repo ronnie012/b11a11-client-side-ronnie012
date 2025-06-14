@@ -10,6 +10,12 @@ const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [avatarImgError, setAvatarImgError] = useState(false);
+
+  useEffect(() => {
+    // Reset image error state when user changes, to re-attempt loading photoURL for a new user
+    setAvatarImgError(false);
+  }, [user]);
 
   const handleToggle = e => {
     if (e.target.checked) {
@@ -35,6 +41,13 @@ const Navbar = () => {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [theme, prevScrollPos]); // Add prevScrollPos to the dependency array
+
+  // Helper function to close the dropdown by blurring the active element (usually the dropdown label)
+  const closeDropdown = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
 
   const navLinks = (
     <>
@@ -142,22 +155,54 @@ const Navbar = () => {
         {user ? ( // Conditionally render based on user existence
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                {/* Use user's photoURL or a fallback avatar */}
-                <img alt="User profile" src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}&background=random`} />
-              </div>
+              {user.photoURL && !avatarImgError ? (
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="User profile"
+                    src={user.photoURL}
+                    onError={() => setAvatarImgError(true)} // Fallback to initials if image fails
+                  />
+                </div>
+              ) : (
+                // Use DaisyUI's avatar placeholder structure for better theme handling and centering
+                <div className="avatar placeholder">
+                  <div className="w-8 h-8 rounded-full bg-base-200 text-base-content border border-base-600 flex items-center justify-center"
+                       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span className="text-md font-semibold leading-none"
+                            style={{ lineHeight: 1, display: 'inline-block' }}>
+                          {getInitials(user.displayName || user.email)}
+                      </span>
+                  </div>
+                </div>
+              )}
             </label>
             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               {/* Display user's name; can be a link to a profile page if planned */}
               <li>
+                {/* Removed the span from here as it's better handled in the avatar itself or a dedicated profile link */}
                 <span className="justify-between font-semibold">
                   {user?.displayName || 'Profile'}
                   {/* <span className="badge">New</span> */}
                 </span>
               </li>
-              <li><Link to="/add-package">Add Package</Link></li>
-              <li><Link to="/manage-my-packages">Manage My Packages</Link></li>
-              <li><button onClick={logout} className="btn btn-ghost btn-sm w-full justify-start">Logout</button></li>
+              <li>
+                <Link to="/add-package" onClick={closeDropdown}>
+                  Add Package
+                </Link>
+              </li>
+              <li>
+                <Link to="/manage-my-packages" onClick={closeDropdown}>
+                  Manage My Packages
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => { logout(); closeDropdown(); }}
+                  className="btn btn-ghost btn-sm w-full justify-start"
+                >
+                  Logout
+                </button>
+              </li>
             </ul>
           </div>
         ) : (
@@ -173,6 +218,23 @@ const Navbar = () => {
       </div>
     </div>
   );
+};
+
+// Helper function to get initials
+const getInitials = (name) => {
+  if (!name || typeof name !== 'string') return 'U'; // Default to 'U' if no name
+  const nameParts = name.split(' ');
+  if (nameParts.length > 1) {
+    // For names like "John Doe", return "JD"
+    return `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`.toUpperCase();
+  } else if (name.includes('@')) {
+    // For emails like "john@example.com", return "J"
+    return name[0].toUpperCase();
+  } else if (name.length > 0) {
+    // For single names like "John", return "J"
+    return name[0].toUpperCase();
+  }
+  return 'U'; // Fallback
 };
 
 export default Navbar;

@@ -31,7 +31,7 @@ const PackageCard = ({ packageData, showGuideEmail = true, showGuideContactNo = 
             image || "https://via.placeholder.com/400x225.png?text=Tour+Image"
           }
           alt={tour_name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
         />
       </figure>
       <div className="card-body p-4 flex flex-col">
@@ -76,7 +76,7 @@ const PackageCard = ({ packageData, showGuideEmail = true, showGuideContactNo = 
               </p> 
               <p className="flex items-center">
                 <FaDollarSign className="mr-2 text-success text-lg" />
-                Price: {price?.toFixed(0) || "N/A"}
+                Price: $ {price?.toFixed(0) || "N/A"}
               </p>
               {showGuideContactNo && guide_contact_no && (
                 <p className="flex items-center text-xs"><FaPhone className="mr-2 text-gray-500" /> {guide_contact_no}</p>

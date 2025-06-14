@@ -8,18 +8,18 @@ const PackageManagementItem = ({ pkg, onDelete, isDeleting }) => {
 
   return (
     <div className="card lg:card-side bg-base-200 shadow-xl mb-6">
-      <figure className="w-full lg:w-1/4 h-48 lg:h-58">
+      <figure className="w-full lg:w-1/4 h-48 lg:h-58 xl:h-60">
         <img 
           src={image || "https://via.placeholder.com/300x200.png?text=Tour+Image"} 
           alt={tour_name} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-xl"
         />
       </figure>
       <div className="card-body lg:w-3/4">
         <h2 className="card-title text-xl md:text-2xl">{tour_name}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 my-2 text-sm text-base-content/80 dark:text-base-content/70">
             <p className="flex items-center"><FaUserTie className="mr-2 text-accent" /> <span className="font-bold mr-1">Guide:</span> {guide_name || 'N/A'}</p>
-            <p className="flex items-center"><FaDollarSign className="mr-2 text-accent" /> <span className="font-bold mr-1">Price:</span> ${price?.toFixed(2) || 'N/A'}</p>
+            <p className="flex items-center"><FaDollarSign className="mr-2 text-accent" /> <span className="font-bold mr-1">Price:</span> $ {price?.toFixed(0) || 'N/A'}</p>
             <p className="flex items-center"><FaCalendarAlt className="mr-2 text-accent" /> <span className="font-bold mr-1">Departure Date:</span> {departure_date ? new Date(departure_date).toLocaleDateString() : 'N/A'}</p>
             <p className="flex items-center"><FaClock className="mr-2 text-accent" /> <span className="font-bold mr-1">Duration:</span> {duration || 'N/A'}</p>
             <p className="flex items-center col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-1"><FaPlaneDeparture className="mr-2 text-accent" /> <span className="font-bold mr-1">Departs from:</span> {departure_location || 'N/A'}</p>

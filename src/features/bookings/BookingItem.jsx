@@ -22,15 +22,15 @@ const BookingItem = ({ booking, onConfirmBooking }) => {
   const formattedBookingCreationDate = bookingDate ? new Date(bookingDate).toLocaleDateString() : 'N/A';
 
   return (
-    <div className="card bg-base-200 shadow-xl mb-6">
-      <div className="card-body p-4 md:p-6">
-        <div className="flex flex-col md:flex-row xl:gap-0 md:gap-6"> {/* Standardized gap for medium screens and up */}
+    <div className="card lg:w-full bg-base-200 shadow-xl mb-0">
+      <div className="card-body lg:p-0 p-6 md:p-6">
+        <div className="flex flex-col md:flex-row xl:gap-4 md:gap-6"> {/* Standardized gap for medium screens and up */}
           {/* Image Column */}
-          <div className="w-full md:w-1/3 flex-shrink-0 mb-4 md:mb-0"> {/* Adjusted width back to 1/3 */}
-            <img src={packageImage || "https://via.placeholder.com/300x200.png?text=Tour+Image"} alt={packageName} className="w-72 h-48 xl:h-44 lg:h-62 md:h-64 object-cover rounded-lg shadow" /> {/* Responsive image height */}
+          <div className="lg:w-1/4 w-full md:w-1/3 flex-shrink-0 mb-4 md:mb-0"> {/* Adjusted width back to 1/3 */}
+            <img src={packageImage || "https://via.placeholder.com/300x200.png?text=Tour+Image"} alt={packageName} className="w-72 h-48 xl:h-64 lg:h-78 md:h-90 sm:h-64 object-cover rounded-2xl shadow" /> {/* Responsive image height */}
           </div>
           {/* Details & Actions Column */}
-          <div className="w-full md:w-2/3 flex flex-col">
+          <div className="lg:w-3/4 w-full md:w-2/3 flex flex-col">
             <h1 className="card-title sm:text-xl md:text-2xl lg:text-4xl mb-8">{packageName}</h1> {/* Slightly more bottom margin for title */}
             {/* Grid for 6 info items: Guide, Date, Price, From, To, Status+Button */}
             {/* Using a flex container for details and status/button to allow notes below */}
@@ -40,7 +40,7 @@ const BookingItem = ({ booking, onConfirmBooking }) => {
                 {guide_contact_no && (
                   <p className="flex items-center"><FaPhone className="mr-2 text-success text-lg" /><strong>Contact:</strong> <span className="ml-1">{guide_contact_no}</span></p>
                 )}
-                <p className="flex items-center"><FaDollarSign className="mr-2 text-success text-lg" /><strong>Price:</strong> <span className="ml-1">${price?.toFixed(2) || 'N/A'}</span></p>
+                <p className="flex items-center"><FaDollarSign className="mr-2 text-success text-lg" /><strong>Price:</strong> <span className="ml-1">$ {price?.toFixed(0) || 'N/A'}</span></p>
                 <p className="flex items-center"><FaRegCalendarCheck className="mr-2 text-success text-lg" /><strong>Booking Date:</strong> <span className="ml-1">{formattedBookingCreationDate}</span></p>
                 <p className="flex items-center"><FaCalendarAlt className="mr-2 text-success text-lg" /><strong>Departure Date:</strong> <span className="ml-1">{formattedTourDate}</span></p>
                 <p className="flex items-center"><FaMapMarkerAlt className="mr-2 text-success text-lg" /><strong>Departure location:</strong> <span className="ml-1">{departure_location || 'N/A'}</span></p>
@@ -49,26 +49,36 @@ const BookingItem = ({ booking, onConfirmBooking }) => {
                 <div className="flex flex-col sm:flex-row md:flex-col xl:flex-row sm:justify-start sm:items-center md:items-start xl:items-center gap-1 sm:gap-2 lg:col-span-1">
                   <p className="flex items-center whitespace-nowrap"><FaInfoCircle className="mr-2 text-success text-lg" /><strong>Status:</strong></p>
                   <div className="flex items-center gap-2">
-                    <span className={`badge ${status === 'Completed' ? 'badge-success' : status === 'Accepted' ? 'badge-info' : status === 'In Review' ? 'badge-warning' : 'badge-error'} md:text-xs`}>{status}</span>
-                  {status === 'In Review' && (
-                    <button
-                      className="btn btn-xs rounded-lg sm:btn-sm btn-success" // Responsive button size
-                      onClick={() => onConfirmBooking(bookingId)}
-                    >
-                      Confirm
-                    </button>
-                  )}
+                    {/* Updated badge logic for "Pending" */}
+                    <span className={`badge ${status === 'Completed' ? 'badge-success' : status === 'Accepted' ? 'badge-info' : status === 'Pending' ? 'badge-warning' : 'badge-error'} md:text-xs`}>
+                      {status}
+                    </span>
+                    {/* Conditional button rendering based on status */}
+                    {status === 'Pending' && (
+                      <button
+                        className="btn btn-xs rounded-lg sm:btn-sm btn-success" // Responsive button size
+                        onClick={() => onConfirmBooking(bookingId)}
+                      >
+                        Confirm
+                      </button>
+                    )}
+                    {status === 'Completed' && (
+                      <button
+                        className="btn btn-xs rounded-lg sm:btn-sm btn-success" // Keeps similar styling, disabled state will alter appearance
+                        disabled
+                      >
+                        Already Confirmed
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
               
-              {/* Notes below the main grid */}
-              {notes && (
-                <p className="flex items-start text-sm md:text-base mt-4 md:mt-0 pt-3 border-t border-base-300"> {/* Reduced top margin on md screens */}
-                  <FaStickyNote className="mr-2 text-orange-500 text-lg mt-1 flex-shrink-0" />
-                  <strong>Special Note:</strong> <span className="ml-1 break-all">{notes}</span> {/* Removed extra colon */}
-                </p>
-              )}
+              {/* Notes below the main grid - always visible */}
+              <p className="flex items-start text-sm md:text-base mt-4 md:mt-0 pt-3 border-t border-base-300"> {/* Reduced top margin on md screens */}
+                <FaStickyNote className="mr-2 text-orange-500 text-lg mt-1 flex-shrink-0" />
+                <strong>Special Note:</strong> <span className="ml-1 break-all">{notes || "No special note added."}</span>
+              </p>
             </div> {/* End of flex-grow container */}
           </div> {/* End of Details & Actions Column */}
         </div> {/* End of flex-col md:flex-row gap */}
