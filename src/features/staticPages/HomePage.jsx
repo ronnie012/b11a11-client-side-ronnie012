@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaMapMarkedAlt, FaUsers, FaShieldAlt, FaRegThumbsUp, FaQuoteLeft, FaStar, FaClock, FaCalendarAlt, FaDollarSign } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react'; // Import React, useEffect, useRef, and useState
 import useFeaturedPackages from '../packages/useFeaturedPackages'; // Import the new hook
+import useGalleryImages from '../packages/useGalleryImages'; // Import the hook for gallery images
 import { motion } from 'framer-motion'; // Import motion
 
 // Import Lightbox
@@ -17,6 +18,7 @@ import LoadingSpinner from '../../components/shared/LoadingSpinner'; // Assuming
 
 const HomePage = () => {
   const { packages: featuredPackages, loading: packagesLoading, error: packagesError } = useFeaturedPackages();
+  const { galleryImages, loading: galleryLoading, error: galleryError } = useGalleryImages();
 
   const whyChooseUsFeatures = [
     { icon: <FaMapMarkedAlt className="text-success text-5xl mb-3" />, title: 'Expert-Curated Itineraries', description: 'Thoughtfully planned trips by travel experts for unforgettable experiences and hidden gems.' },
@@ -83,17 +85,17 @@ const HomePage = () => {
       {/* Hero Banner Carousel using DaisyUI */}
       {/* For image issue: Ensure image paths in `bannerPackages` are correct. Check browser network tab for loading errors. */}
       {/* Inspect `img` elements: do they have correct src, width, height? Are they display:none or opacity:0? */}
-      <div ref={carouselRef} className="carousel w-full h-[75vh]"> {/* Ensure featuredPackages is not empty before mapping */}
+      <div ref={carouselRef} className="carousel w-full h-[75vh] rounded-2xl"> {/* Ensure featuredPackages is not empty before mapping */}
         {featuredPackages && featuredPackages.map((pkg, index) => (
           <div
             key={pkg._id} // Use _id from MongoDB
             id={`slide${index + 1}`}
-            className="carousel-item relative w-full h-[75vh]" // Explicitly set height to match parent's h-[75vh]
+            className="carousel-item relative w-full h-[75vh] " // Explicitly set height to match parent's h-[75vh]
           >
             {/* Image */}
             <img
               src={pkg.image}
-              className="absolute inset-0 w-full h-full object-cover z-0" // Changed to absolute, added z-0
+              className="absolute inset-0 w-full h-full object-cover z-0 " // Changed to absolute, added z-0
               alt={pkg.tour_name} // The overlay is z-10, so image should be behind it.
               onError={(e) => { console.error(`Image failed to load: ${pkg.image}`, e.target.onerror, e.target.src); e.target.style.display='none'; /* Optionally hide broken image icon */ }}
             />
@@ -165,9 +167,9 @@ const HomePage = () => {
           {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {featuredPackages.map(pkg => (
-                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-100 ease-in-out">
+                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-100 ease-in-out">
                   <figure className="h-60 overflow-hidden">
-                    <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover" />
+                    <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover rounded-lg" />
                   </figure>
                   <div className="card-body">
                     <h3 className="card-title text-2xl">{pkg.tour_name}</h3>
@@ -215,7 +217,7 @@ const HomePage = () => {
       </section>
 
       {/* Why Choose TourZen Section */}
-      <section className="py-16 bg-base-200">
+      <section className="py-12 bg-base-200 rounded-2xl mb-12">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Why Choose TourZen?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -240,14 +242,16 @@ const HomePage = () => {
       </section>
 
       {/* Tour Gallery Section with Lightbox */}
-      {featuredPackages && featuredPackages.length > 0 && (
-        <section className="py-16 bg-base-200">
+      {galleryLoading && <LoadingSpinner />}
+      {galleryError && <p className="text-center text-red-500 rounded-2xl ">Error loading gallery: {galleryError}</p>}
+      {!galleryLoading && !galleryError && galleryImages && galleryImages.length > 0 && (
+        <section className="py-12 bg-base-200 rounded-2xl mb-6">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-12">Tour Gallery</h2>
+            <h2 className="text-4xl font-bold text-center mb-10">Tour Gallery</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {featuredPackages.slice(0, 10).map((pkg, index) => ( // Displaying up to 10 images in the grid
+              {galleryImages.map((item, index) => ( // Use galleryImages here
                 <div
-                  key={`gallery-thumb-${pkg._id}`}
+                  key={`gallery-thumb-${item._id}`}
                   className="aspect-square overflow-hidden rounded-lg shadow-lg cursor-pointer group"
                   onClick={() => {
                     setLightboxIndex(index);
@@ -256,9 +260,9 @@ const HomePage = () => {
                 >
                   <figure className="w-full h-full">
                     <img
-                      src={pkg.image || "https://via.placeholder.com/300x300.png?text=Tour+Image"}
-                      alt={`Gallery image for ${pkg.tour_name}`}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      src={item.image || "https://via.placeholder.com/300x300.png?text=Tour+Image"} // Use item.image here
+                      alt={`Gallery image for ${item.tour_name}`}
                     />
                   </figure>
                 </div>
@@ -269,10 +273,10 @@ const HomePage = () => {
                 open={lightboxOpen}
                 close={() => setLightboxOpen(false)}
                 index={lightboxIndex}
-                slides={featuredPackages.slice(0, 10).map(pkg => ({
-                  src: pkg.image || "https://via.placeholder.com/1200x800.png?text=Tour+Image",
-                  alt: pkg.tour_name,
-                  title: pkg.tour_name,
+                slides={galleryImages.map(item => ({ // Use galleryImages for lightbox slides
+                  src: item.image || "https://via.placeholder.com/1200x800.png?text=Tour+Image",
+                  alt: item.tour_name,
+                  title: item.tour_name,
                 }))}
                 // plugins={[Thumbnails, Zoom]} // Optional: add plugins
               />
@@ -282,12 +286,12 @@ const HomePage = () => {
       )}
 
       {/* Customer Testimonials Section */}
-      <section className="py-16 bg-base-100">
+      <section className="py-10 bg-base-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Hear From Our Happy Travelers</h2>
+          <h2 className="text-4xl font-bold text-center mb-8">Hear From Our Happy Travelers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (
-              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center">
+              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500">
                 <div className="avatar mb-4">
                   <div className="w-20 rounded-full ring ring-success ring-offset-base-100 ring-offset-2">
                     <img src={testimonial.image} alt={testimonial.author} />
