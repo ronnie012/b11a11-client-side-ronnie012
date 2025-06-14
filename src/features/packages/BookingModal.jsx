@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form'; // Import useForm
 import { useAuth } from '../../contexts/AuthContext'; // To get logged-in user details
 
 const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
-  const { user } = useAuth(); 
-  // const [tourDate, setTourDate] = useState(packageDetails?.departure_date || ''); // Removed as per new requirement
-  const [notes, setNotes] = useState(''); // State for special notes
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const { register, handleSubmit, formState: { errors: formErrors }, reset } = useForm({
+    defaultValues: {
+      notes: ''
+    }
+  });
+
   if (!isOpen || !packageDetails) return null;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (formData) => { // Renamed to onSubmit, receives formData from react-hook-form
     setError('');
     setLoading(true);
 
@@ -31,8 +35,8 @@ const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
       touristImage: user.photoURL || '',
       selectedTourDate: packageDetails.departure_date, // Use the package's departure date
       guideName: packageDetails.guide_name, // Assuming guide_name is in packageDetails
-      status: 'In Review', // Default status
-      notes: notes, // Add notes to booking data
+      status: 'Pending', // Default status
+      notes: formData.notes, // Get notes from formData
       bookingDate: Date.now(), // Automatically set the current timestamp as a number
     };
 
@@ -41,7 +45,7 @@ const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
       // that handles the actual API call to the backend.
       await onBookingSubmit(bookingData);
       // Optionally, show a success message or redirect
-      setNotes(''); // Clear notes field on successful submission
+      reset(); // Reset form fields (including notes)
       onClose(); // Close modal on successful submission
     } catch (err) {
       setError(err.message || 'Failed to submit booking. Please try again.');
@@ -55,14 +59,17 @@ const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
       <div className="modal-box relative">
         <button
           type="button"
-          onClick={onClose}
+          onClick={() => {
+            reset(); // Also reset form on manual close
+            onClose();
+          }}
           className="btn btn-sm btn-circle absolute right-2 top-2"
           disabled={loading}
         >
           ✕
         </button>
-        <h3 className="text-3xl text-center font-bold mb-4">Book Now:<br/> {packageDetails.tour_name}</h3>
-        <form onSubmit={handleSubmit}>
+        <h3 className="text-3xl text-success text-center font-bold mb-4">Book Now:<br/> {packageDetails.tour_name}</h3>
+        <form onSubmit={handleSubmit(onSubmit)}> {/* Use handleSubmit(onSubmit) */}
           <div className="form-control mb-4">
             <label className="label"><span className="label-text mr-7">Package Price:</span></label>
             <input type="text" value={`$ ${packageDetails.price?.toFixed(0)}`} className="input input-bordered" readOnly />
@@ -79,20 +86,21 @@ const BookingModal = ({ packageDetails, isOpen, onClose, onBookingSubmit }) => {
             <label className="label"><span className="label-text mr-9">Booking Date:</span></label>
             <input type="text" value={new Date().toLocaleString()} className="input input-bordered" readOnly />
           </div>
-          {/* <div className="form-control mb-4">
-            <label className="label"><span className="label-text mr-2">Select Tour Date:</span></label>
-            <input type="date" value={tourDate ? new Date(tourDate).toISOString().split('T')[0] : ''} onChange={(e) => setTourDate(e.target.value)} className="input input-bordered" required />
-          </div> */}
-          <div className="form-control mb-4"> {/* Changed mt-4 to mb-4 for consistency */}
+          <div className="form-control mb-4">
             <label className="label"><span className="label-text">Special Note (Optional):</span></label>
-            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="textarea textarea-bordered h-24 w-full" placeholder="Any special requests or notes..."></textarea>
+            <textarea
+              className={`textarea textarea-bordered h-24 w-full ${formErrors.notes ? 'textarea-error' : ''}`}
+              placeholder="Any special requests or notes..."
+              {...register("notes")} // Register the notes field
+            ></textarea>
+            {formErrors.notes && <span className="text-error text-xs mt-1">{formErrors.notes.message}</span>}
           </div>
           
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           <div className="modal-action mt-6">
             <button type="submit" className="btn btn-success" disabled={loading}>
-              {loading ? <span className="loading loading-spinner"></span> : 'Confirm Booking'}
+              {loading ? <span className="loading loading-spinner"></span> : 'Book Now'}
             </button>
           </div>
         </form>

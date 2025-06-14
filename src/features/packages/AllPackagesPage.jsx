@@ -16,7 +16,7 @@ const AllPackagesPage = () => {
       <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl text-success font-bold text-center mb-8">Explore Our Tour Packages</h1>
 
       {/* Search Input */}
-      <div className="mb-8 flex justify-center">
+      <div className="mb-12 flex justify-center">
         <input
           type="text"
           placeholder="Search by tour name..."
