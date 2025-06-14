@@ -83,63 +83,70 @@ const HomePage = () => {
       <Helmet><title>Home - TourZen</title></Helmet>
 
       {/* Hero Banner Carousel using DaisyUI */}
-      {/* For image issue: Ensure image paths in `bannerPackages` are correct. Check browser network tab for loading errors. */}
-      {/* Inspect `img` elements: do they have correct src, width, height? Are they display:none or opacity:0? */}
-      <div ref={carouselRef} className="carousel w-full h-[75vh] rounded-2xl"> {/* Ensure featuredPackages is not empty before mapping */}
-        {featuredPackages && featuredPackages.map((pkg, index) => (
-          <div
-            key={pkg._id} // Use _id from MongoDB
-            id={`slide${index + 1}`}
-            className="carousel-item relative w-full h-[75vh] " // Explicitly set height to match parent's h-[75vh]
-          >
-            {/* Image */}
-            <img
-              src={pkg.image}
-              className="absolute inset-0 w-full h-full object-cover z-0 " // Changed to absolute, added z-0
-              alt={pkg.tour_name} // The overlay is z-10, so image should be behind it.
-              onError={(e) => { console.error(`Image failed to load: ${pkg.image}`, e.target.onerror, e.target.src); e.target.style.display='none'; /* Optionally hide broken image icon */ }}
-            />
-
-            {/* Your Overlay */}
-            <div className="absolute inset-0   flex flex-col items-center justify-center text-center p-4 z-10 bg-[rgba(0,0,0,0.5)]">
-              <h1 className="mb-5 text-4xl md:text-5xl font-bold text-white">{pkg.tour_name}</h1>
-              <p className='text-white max-w-6xl mb-4'>{pkg.package_details}</p>
-              <p className="mb-4 text-lg text-white max-w-lg">
-                Duration: {pkg.duration} | Departure: {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'}
-              </p>
-              <div className="flex flex-col gap-4 items-center">
-                <Link to={`/package/${pkg._id}`} className="btn btn-success btn-outline hover:btn-warning">View Details</Link>
-                <Link to="/all-packages" className="btn btn-outline hover:btn-accent btn-warning">Explore All Packages</Link>
-              </div>
-            </div>
-
-            {/* DaisyUI Carousel Navigation */}
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 z-20">
-              <a
-                href={`#slide${index === 0 ? featuredPackages.length : index}`}
-                className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10" // Added btn-ghost for better visibility
-                onClick={(e) => {
-                  e.preventDefault();
-                  const prevSlide = index === 0 ? featuredPackages.length - 1 : index - 1;
-                  handleDotClick(prevSlide); // Re-use handleDotClick logic
-                }}
-              >
-                ❮
-              </a>
-              <a
-                href={`#slide${index + 2 > featuredPackages.length ? 1 : index + 2}`}
-                className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10" // Added btn-ghost for better visibility
-                onClick={(e) => {
-                  e.preventDefault();
-                  const nextSlide = (index + 1) % featuredPackages.length;
-                  handleDotClick(nextSlide); // Re-use handleDotClick logic
-                }}
-              >
-                ❯
-              </a>
-            </div>
+      <div className="relative w-full h-[75vh] rounded-2xl overflow-hidden bg-base-200"> {/* Added bg-base-200 for loading state */}
+        {packagesLoading && (
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <LoadingSpinner />
           </div>
-        ))}
+        )}
+        {!packagesLoading && packagesError && (
+          <div className="absolute inset-0 flex items-center justify-center text-red-500 p-4 z-20">
+            Error loading featured tours: {packagesError}
+          </div>
+        )}
+        {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
+          <div ref={carouselRef} className="carousel w-full h-full"> {/* Carousel takes full height of parent */}
+            {featuredPackages.map((pkg, index) => (
+              <div
+                key={pkg._id}
+                id={`slide${index + 1}`}
+                className="carousel-item relative w-full h-full"
+              >
+                <img
+                  src={pkg.image}
+                  className="absolute inset-0 w-full h-full object-cover z-0"
+                  alt={pkg.tour_name}
+                  onError={(e) => { console.error(`Image failed to load: ${pkg.image}`, e.target.onerror, e.target.src); e.target.style.display='none'; }}
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 z-10 bg-[rgba(0,0,0,0.5)]">
+                  <h1 className="mb-5 text-4xl md:text-5xl font-bold text-white">{pkg.tour_name}</h1>
+                  <p className='text-white max-w-6xl mb-4'>{pkg.package_details}</p>
+                  <p className="mb-4 text-lg text-white max-w-lg">
+                    Duration: {pkg.duration} | Departure: {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'}
+                  </p>
+                  <div className="flex flex-col gap-4 items-center">
+                    <Link to={`/package/${pkg._id}`} className="btn btn-success btn-outline hover:btn-warning">View Details</Link>
+                    <Link to="/all-packages" className="btn btn-outline hover:btn-accent btn-warning">Explore All Packages</Link>
+                  </div>
+                </div>
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 z-20">
+                  <a
+                    href={`#slide${index === 0 ? featuredPackages.length : index}`}
+                    className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const prevSlide = index === 0 ? featuredPackages.length - 1 : index - 1;
+                      handleDotClick(prevSlide);
+                    }}
+                  >
+                    ❮
+                  </a>
+                  <a
+                    href={`#slide${index + 2 > featuredPackages.length ? 1 : index + 2}`}
+                    className="btn btn-circle btn-ghost text-2xl text-white hover:text-orange-500 border-none hover:bg-white/10"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const nextSlide = (index + 1) % featuredPackages.length;
+                      handleDotClick(nextSlide);
+                    }}
+                  >
+                    ❯
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {/* Pagination dots for DaisyUI Carousel (optional) */}
       <div className="flex justify-center w-full py-2 gap-2">
@@ -224,7 +231,7 @@ const HomePage = () => {
             {whyChooseUsFeatures.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="card bg-base-100 shadow-lg text-center p-6 hover:shadow-xl transition-shadow duration-300"
+                className="card bg-base-100 shadow-xl text-center p-6 hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500"
                 initial={{ opacity: 0, y: 50 }} // Start invisible and 50px down
                 whileInView={{ opacity: 1, y: 0 }} // Animate to visible and original position when in view
                 viewport={{ once: true, amount: 0.3 }} // Trigger animation once when 30% of element is in view
@@ -260,7 +267,7 @@ const HomePage = () => {
                 >
                   <figure className="w-full h-full">
                     <img
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-1 group-hover:scale-115 "
                       src={item.image || "https://via.placeholder.com/300x300.png?text=Tour+Image"} // Use item.image here
                       alt={`Gallery image for ${item.tour_name}`}
                     />
