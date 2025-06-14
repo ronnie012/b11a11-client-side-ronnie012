@@ -128,7 +128,7 @@ const Navbar = () => {
         </div>
         <Link to="/" className=" text-xl md:text-2xl text-success hover:text-orange-500 font-bold flex items-center">
           {/* Add logo image */}
-          <img src={logo} alt="TourZen Logo" className="h-8 w-9 mr-2" /> {/* Adjust size and margin as needed */}
+          <img src={logo} alt="TourZen Logo" className="h-8 w-9 mr-2 rounded-lg" /> {/* Adjust size and margin as needed */}
           {/* Site Name */}
           TourZen
         </Link>

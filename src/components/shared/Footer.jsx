@@ -19,7 +19,7 @@ const Footer = () => {
           <h6 className="footer-title">Company</h6> {/* Keep the title */}
           {/* Add logo and site name */}
           <Link to="/" className="flex items-center text-2xl font-bold text-success hover:text-orange-500 ">
-            <img src={logo} alt="TourZen Logo" className="h-13 w-15 mr-2" />TourZen</Link> {/* Changed text-success to text-primary for consistency */}
+            <img src={logo} alt="TourZen Logo" className="h-13 w-15 mr-2 rounded-xl" />TourZen</Link> {/* Changed text-success to text-primary for consistency */}
           <p>Your Adventure Starts Here</p>
           <p>123 Adventure Lane, Wanderlust City, BC.</p>
         </aside>
