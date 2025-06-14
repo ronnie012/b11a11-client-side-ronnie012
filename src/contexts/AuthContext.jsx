@@ -45,22 +45,23 @@ const AuthProvider = ({ children }) => {
     // Function to fetch JWT from server and store it
     const fetchAndStoreToken = async (firebaseUser) => {
         if (!firebaseUser || !firebaseUser.email) return;
+        // setLoading(true); // setLoading is handled by onAuthStateChanged or calling functions
         try {
-            const payload = {
-                email: firebaseUser.email,
-                uid: firebaseUser.uid,
-                displayName: firebaseUser.displayName,
-                photoURL: firebaseUser.photoURL,
-            };
-            const response = await axios.post(`${API_BASE_URL}/auth/jwt`, payload);
+            const idToken = await firebaseUser.getIdToken(true); // Get Firebase ID token (true forces refresh)
+            // console.log("Firebase ID Token (from AuthContext):", idToken); // Checking Firebase ID Token to test
+            const response = await axios.post(`${API_BASE_URL}/auth/firebase-login`, { idToken }); // Send ID token to backend
             const receivedToken = response.data.token;
             localStorage.setItem('authToken', receivedToken);
             setToken(receivedToken);
             axios.defaults.headers.common['Authorization'] = `Bearer ${receivedToken}`; // Set for future axios requests
         } catch (error) {
             console.error("Failed to fetch JWT:", error);
-            setAuthError(error.response?.data?.message || "Failed to authenticate with server.");
+            const errorMessage = error.response?.data?.message || "Failed to authenticate with the server. Please try logging in again.";
+            setAuthError(errorMessage);
+            toast.error(errorMessage); // Show error to the user
             // Handle token fetch error (e.g., show a message to the user)
+            // Optionally, sign out the user if token fetch fails critically
+            // await signOut(auth); // This would trigger onAuthStateChanged to clear local state
         }
     };
 
@@ -149,6 +150,10 @@ const AuthProvider = ({ children }) => {
             });
             // Manually update the user state if needed, as onAuthStateChanged might not pick up profile changes immediately
             setUser(prevUser => ({...prevUser, displayName: name, photoURL: photoURL}));
+            // Re-fetch the custom JWT if profile information is part of its payload and user is still logged in
+            if (auth.currentUser) {
+                await fetchAndStoreToken(auth.currentUser);
+            }
             setLoading(false);
         } catch (error) {
             console.error("Error updating profile:", error);
