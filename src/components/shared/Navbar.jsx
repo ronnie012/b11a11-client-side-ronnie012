@@ -210,7 +210,7 @@ const Navbar = () => {
             <Link to="/login" className="btn btn-outline btn-success btn-xs sm:btn-sm mr-1 sm:mr-2"> {/* Responsive button size and margin */}
               Login
             </Link>
-            <Link to="/register" className="btn btn-outline btn-primary btn-xs sm:btn-sm"> {/* Responsive button size */}
+            <Link to="/register" className="btn btn-outline btn-warning btn-xs sm:btn-sm"> {/* Responsive button size */}
               Register
             </Link>
           </>

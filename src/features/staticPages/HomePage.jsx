@@ -294,6 +294,7 @@ const HomePage = () => {
                   alt: item.tour_name,
                   title: item.tour_name,
                 }))}
+                on={{ view: ({ index: currentIndex }) => setLightboxIndex(currentIndex) }}
                 // plugins={[Thumbnails, Zoom]} // Optional: add plugins
               />
             )}
