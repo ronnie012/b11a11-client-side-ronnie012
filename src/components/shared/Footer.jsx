@@ -4,8 +4,8 @@ import logo from '../../assets/logo.png'; // Assuming your logo is here
 
 const Footer = () => {
   return (
-    <footer className="bg-base-200 text-base-content text-center md:text-left">
-      <div className="footer p-4 px-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center md:justify-items-start">
+    <footer className="bg-base-200 text-base-content text-center md:text-left rounded-xl px-4">
+      <div className="footer p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center md:justify-items-start">
         {/* Section 1: Links */}
         <nav className="flex flex-col items-center sm:items-start w-full">
           <h6 className="footer-title">Services</h6>

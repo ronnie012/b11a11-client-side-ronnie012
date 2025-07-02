@@ -8,8 +8,6 @@ const Navbar = () => {
 
   // Theme toggle state and logic
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light');
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
   const [avatarImgError, setAvatarImgError] = useState(false);
 
   useEffect(() => {
@@ -28,19 +26,7 @@ const Navbar = () => {
   useEffect(() => {
     localStorage.setItem('theme', theme);
     document.querySelector('html').setAttribute('data-theme', theme);
-
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      // Show navbar if scrolling up or if at the very top (less than 10px from top)
-      // Hide if scrolling down and not near the top
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-      setPrevScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [theme, prevScrollPos]); // Add prevScrollPos to the dependency array
+  }, [theme]);
 
   // Helper function to close the dropdown by blurring the active element (usually the dropdown label)
   const closeDropdown = () => {
@@ -83,6 +69,27 @@ const Navbar = () => {
               My Bookings
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/add-package"
+              className={({ isActive }) =>
+                isActive ? 'text-success  font-semibold' : 'hover:text-orange-500 font-semibold'
+              }
+            >
+              Add Package
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/manage-my-packages"
+              className={({ isActive }) =>
+                isActive ? 'text-success  font-semibold' : 'hover:text-orange-500 font-semibold'
+              }
+            >
+              Manage My Packages
+            </NavLink>
+          </li>
+          
         </>
       )}
       <li>
@@ -100,11 +107,10 @@ const Navbar = () => {
 
   return (
     <div
-      className={`navbar shadow-sm sticky z-50 px-4 md:px-8 transition-all duration-300 ease-in-out 
-                  ${visible ? 'top-0 bg-base-100/60 backdrop-blur-md' : '-top-24 bg-base-100/60 backdrop-blur-md'} 
-                  dark:bg-base-100/50 dark:backdrop-blur-xs`} // Adjusted opacity for dark mode if needed
+      className={`navbar shadow-sm bg-base-100/60 backdrop-blur-md dark:bg-base-100/50 dark:backdrop-blur-xs justify-between rounded-box`}
     >
-      <div className="navbar-start flex-1"> {/* Allow start to grow, its content will be at its start */}
+      
+      <div className="navbar-start"> {/* Allow start to grow, its content will be at its start */}
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden px-1"> {/* Reduced horizontal padding */}
             <svg
@@ -133,10 +139,12 @@ const Navbar = () => {
           TourZen
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex"> {/* Removed flex-1; it will take its content's width and be centered by its siblings */}
-        <ul className="menu menu-horizontal flex-nowrap px-1 space-x-1 xl:space-x-2">{navLinks}</ul> {/* Added flex-nowrap */}
+      <div className="navbar-center hidden lg:flex flex-grow">
+        <ul className="menu menu-horizontal px-1">
+          {navLinks}
+        </ul>
       </div>
-      <div className="navbar-end flex-1"> {/* Allow end to grow, its content will be at its end (due to navbar-end style) */}
+      <div className="navbar-end"> {/* Allow end to grow, its content will be at its end (due to navbar-end style) */}
         {/* Theme Toggle */}
         <label className="swap swap-rotate mr-1 sm:mr-2 md:mr-4"> {/* Adjusted margin */}
           <input
@@ -184,16 +192,6 @@ const Navbar = () => {
                   <span className="justify-between font-semibold">
                     {user?.displayName || 'Profile'}
                   </span>
-                </li>
-                <li>
-                  <Link to="/add-package" onClick={closeDropdown}>
-                    Add Package
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/manage-my-packages" onClick={closeDropdown}>
-                    Manage My Packages
-                  </Link>
                 </li>
                 <li>
                   <button

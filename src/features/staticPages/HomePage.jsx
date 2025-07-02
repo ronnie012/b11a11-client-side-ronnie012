@@ -83,7 +83,7 @@ const HomePage = () => {
       <Helmet><title>Home - TourZen</title></Helmet>
 
       {/* Hero Banner Carousel using DaisyUI */}
-      <div className="relative w-full h-[75vh] rounded-2xl overflow-hidden bg-base-200"> {/* Added bg-base-200 for loading state */}
+      <div className="relative w-full h-[70vh] rounded-2xl overflow-hidden bg-base-200"> {/* Added bg-base-200 for loading state */}
         {packagesLoading && (
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <LoadingSpinner />
@@ -154,27 +154,26 @@ const HomePage = () => {
                 </div>
               </div>
             ))}
+            <div className="absolute bottom-0 left-0 right-0 flex justify-center w-full py-2 gap-2 z-20">
+              {featuredPackages && featuredPackages.map((pkg, index) => (
+                <a
+                  key={`dot-${pkg._id}`}
+                  href={`#slide${index + 1}`}
+                  className={`btn btn-xs ${index === activeSlideIndex ? 'btn-success btn-outline' : 'btn-outline text-orange-500 hover:text-black hover:btn-warning'}`} // Apply 'btn-active' for the current slide
+                  onClick={(e) => handleDotClick(index, e)}
+                >
+                  {index + 1}
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </div>
-      {/* Pagination dots for DaisyUI Carousel (optional) */}
-      <div className="flex justify-center w-full py-2 gap-2">
-        {featuredPackages && featuredPackages.map((pkg, index) => (
-          <a
-            key={`dot-${pkg._id}`}
-            href={`#slide${index + 1}`}
-            className={`btn btn-sm ${index === activeSlideIndex ? 'btn-success btn-outline' : 'btn-outline text-orange-500 hover:text-black hover:btn-warning'}`} // Apply 'btn-active' for the current slide
-            onClick={(e) => handleDotClick(index, e)}
-          >
-            {index + 1}
-          </a>
-        ))}
-      </div>
 
       {/* Featured Packages Section */}
-      <section className="py-16 bg-base-100">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Featured Tour Packages</h2>
+      <section className="py-12 bg-base-100">
+        <div className="w-full">
+          <h2 className="text-4xl font-bold text-center mb-10">Featured Tour Packages</h2>
           {packagesLoading && <LoadingSpinner />}
           {packagesError && <p className="text-center text-red-500">Error loading packages: {packagesError}</p>}
           {!packagesLoading && !packagesError && (!featuredPackages || featuredPackages.length === 0) && (
@@ -261,7 +260,7 @@ const HomePage = () => {
       {galleryLoading && <LoadingSpinner />}
       {galleryError && <p className="text-center text-red-500 rounded-2xl ">Error loading gallery: {galleryError}</p>}
       {!galleryLoading && !galleryError && galleryImages && galleryImages.length > 0 && (
-        <section className="py-12 bg-base-200 rounded-2xl mb-6">
+        <section className="py-6 bg-base-200 rounded-2xl mb-3">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold text-center mb-10">Tour Gallery</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -304,7 +303,7 @@ const HomePage = () => {
 
       {/* Customer Testimonials Section */}
       <section className="py-10 bg-base-100">
-        <div className="container mx-auto px-4">
+        <div className="w-full">
           <h2 className="text-4xl font-bold text-center mb-8">Hear From Our Happy Travelers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (

@@ -13,7 +13,18 @@ const useGalleryImages = () => {
       setLoading(true);
       try {
         const response = await axios.get(`${API_BASE_URL}/packages/gallery-images`);
-        setGalleryImages(response.data || []);
+        if (Array.isArray(response.data)) {
+          setGalleryImages(response.data);
+        } else {
+          // Handle cases where response.data is not an array.
+          if (response.data && Array.isArray(response.data.galleryImages)) {
+            setGalleryImages(response.data.galleryImages);
+          } else {
+            // If the structure is unexpected, default to an empty array
+            setGalleryImages([]);
+            console.warn('API did not return an array for gallery images:', response.data);
+          }
+        }
         setError(null);
       } catch (err) {
         setError(err.response?.data?.message || err.message || 'Failed to fetch gallery images');

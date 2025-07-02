@@ -13,7 +13,21 @@ const useFeaturedPackages = () => {
       try {
         setLoading(true);
         const response = await axios.get(`${API_BASE_URL}/packages/featured`);
-        setPackages(response.data);
+        if (Array.isArray(response.data)) {
+          setPackages(response.data);
+        } else {
+          // Even if the API is supposed to return an array, it might not.
+          // Handle cases where response.data is not an array.
+          // For example, if it's an object with a 'packages' property:
+          if (response.data && Array.isArray(response.data.packages)) {
+            setPackages(response.data.packages);
+          } else {
+            // If the structure is unexpected, default to an empty array
+            // to prevent the .map() error.
+            setPackages([]);
+            console.warn('API did not return an array for featured packages:', response.data);
+          }
+        }
       } catch (err) {
         setError(err.response?.data?.message || err.message || 'Failed to fetch featured packages');
       } finally {
