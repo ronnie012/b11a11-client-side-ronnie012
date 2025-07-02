@@ -24,7 +24,7 @@ const PackageCard = ({ packageData, showGuideEmail = true, showGuideContactNo = 
   } = packageData;
 
   return (
-    <div className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange-400 transition-all duration-1 ease-in-out hover:cursor-pointer min-w-[280px]">
+    <div className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange- transition-all duration-1 ease-in-out hover:cursor-pointer min-w-[280px]">
       <figure className="h-48 overflow-hidden">
         <img
           src={

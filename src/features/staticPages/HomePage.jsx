@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { FaMapMarkedAlt, FaUsers, FaShieldAlt, FaRegThumbsUp, FaQuoteLeft, FaStar, FaClock, FaCalendarAlt, FaDollarSign } from 'react-icons/fa';
+import { FaMapMarkedAlt, FaUsers, FaShieldAlt, FaRegThumbsUp, FaQuoteLeft, FaStar, FaClock, FaCalendarAlt, FaDollarSign, FaUserCircle } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react'; // Import React, useEffect, useRef, and useState
 import useFeaturedPackages from '../packages/useFeaturedPackages'; // Import the new hook
 import useGalleryImages from '../packages/useGalleryImages'; // Import the hook for gallery images
@@ -180,41 +180,63 @@ const HomePage = () => {
             <p className="text-center text-gray-500">No featured packages available at the moment.</p>
           )}
           {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {featuredPackages.map(pkg => (
-                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-110 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-1 ease-in-out hover:cursor-pointer">
-                  <figure className="h-60 overflow-hidden">
+                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange- transition-all duration-1 ease-in-out hover:cursor-pointer">
+                  <figure className="h-48 overflow-hidden">
                     <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover rounded-lg" />
                   </figure>
-                  <div className="card-body">
-                    <h3 className="card-title text-2xl">{pkg.tour_name}</h3>
-                    <div className="flex items-center mt-2">
-                      <div className="avatar mr-3">
-                        <div className="w-10 rounded-full">
-                          <img src={pkg.guide_photo || 'https://via.placeholder.com/40x40.png?text=G'} alt={pkg.guide_name} />
-                        </div>
-                      </div>
-                      <span className="text-lg text-base-content/80 dark:text-base-content/70 font-semibold">{pkg.guide_name || 'N/A'}</span>
+                  <div className="card-body px-3 py-3 flex flex-col">
+                    {" "}
+                    {/* Added flex flex-col for better button positioning control */}
+                    <h2
+                      className="card-title text-xl  font-bold truncate"
+                      title={pkg.tour_name}
+                    >
+                      {pkg.tour_name}
+                    </h2>
+                    <div className="flex items-center mt-1 text-sm text-gray-600 dark:text-gray-400">
+                      {pkg.guide_photo ? (
+                        <img
+                          src={pkg.guide_photo}
+                          alt={pkg.guide_name}
+                          className="w-10 rounded-full mr-2 object-cover"
+                        />
+                      ) : (
+                        <FaUserCircle className="w-6 h-6 mr-2 text-gray-400" />
+                      )}
+                      <span className="text-base text-base-content/80 dark:text-base-content/70 font-semibold">{pkg.guide_name || "N/A"}</span>
                     </div>
-                    {/* Group for Duration, Departure, and Price with consistent y-spacing */}
-                    <div className="space-y-1 mt-3 text-lg text-base-content/80 dark:text-base-content/70 font-bold"> {/* Apply common styles here */}
-                      <p className="flex items-center"> {/* Inherit styles from parent */}
-                        <FaClock className="mr-2 text-blue-400 text-lg" />
-                        <span className="font-semibold mr-1">Duration:</span> {pkg.duration || 'N/A'} {/* Changed to font-semibold */}
-                      </p>
-                      <p className="flex items-center"> {/* Inherit styles from parent */}
-                        <FaCalendarAlt className="mr-2 text-red-500 text-lg" />
-                        <span className="font-semibold mr-1">Departure:</span> {pkg.departure_date ? new Date(pkg.departure_date).toLocaleDateString() : 'N/A'} {/* Changed to font-semibold */}
-                      </p>
-                      {/* Container for Price and View Details button */}
-                      <div className="flex justify-between items-center mt-2">
-                        <div className="flex items-center"> {/* Inherit styles from parent */}
-                          <FaDollarSign className="mr-1 text-success text-2xl" />
-                          <span className="font-semibold"> Price: $ {pkg.price?.toFixed(0) || 'N/A'}</span>
+                    {/* CloThis container will hold details and button, allowing them to be side-by-side at the bottom */}
+                    {/* flex-grow pushes this block to the bottom of the card-body if content above is short */}
+                    <div className="mt-2 flex flex-col flex-grow justify-end">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-end w-full">
+                        {" "}
+                        {/* Aligns details and button on the same line, items-end aligns their bottoms */}
+                        <div className="space-y-1 text-sm text-base-content/80 dark:text-base-content/70 font-bold flex-grow sm:w-3/4">
+                          {" "}
+                          {/* Details on the left */}
+                          <p className="flex items-center">
+                            <FaClock className="mr-2 text-blue-400 text-base" /> Duration: {pkg.duration || "N/A"}
+                          </p>
+                          
+                          <p className="flex items-center">
+                            <FaCalendarAlt className="mr-2 text-red-500 text-base" />{"Departure: "}
+                            {pkg.departure_date
+                              ? new Date(pkg.departure_date).toLocaleDateString()
+                              : "N/A"}
+                          </p> 
+                          <p className="flex items-center">
+                            <FaDollarSign className="mr-2 text-success text-lg" />
+                            Price: $ {pkg.price?.toFixed(0) || "N/A"}
+                          </p>
                         </div>
-                        <Link to={`/package/${pkg._id}`} className="btn btn-outline btn-success hover:text-orange-500 hover:border-orange-500 hover:bg-neutral btn-sm">
-                          View Details
-                        </Link>
+                        {/* Button on the right */}
+                        <div className="card-actions mt-2 sm:mt-0 flex-shrink-0 flex justify-end">
+                          <Link to={`/package/${pkg._id}`} className="btn btn-outline btn-success hover:text-orange-500 hover:border-orange-500 hover:bg-neutral btn-xs w-full sm:w-auto">
+                            View Details
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
