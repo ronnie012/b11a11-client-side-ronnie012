@@ -22,7 +22,7 @@ const BookingItem = ({ booking, onConfirmBooking }) => {
   const formattedBookingCreationDate = bookingDate ? new Date(bookingDate).toLocaleDateString() : 'N/A';
 
   return (
-    <div className="card lg:w-full bg-base-200 shadow-xl mb-8 rounded-2xl hover:shadow-2xl hover:scale-105 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-400  transition-all duration-1 ease-in-out hover:cursor-pointer">
+    <div className="card lg:w-full bg-base-200 shadow-xl mb-8 rounded-2xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-  transition-all duration-1 ease-in-out hover:cursor-pointer">
       <div className="card-body lg:p-0 p-6 md:p-6">
         <div className="flex flex-col md:flex-row xl:gap-1 md:gap-6"> {/* Standardized gap for medium screens and up */}
           {/* Image Column */}
