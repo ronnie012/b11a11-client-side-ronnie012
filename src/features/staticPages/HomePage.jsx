@@ -135,7 +135,7 @@ const HomePage = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       const prevSlide = index === 0 ? featuredPackages.length - 1 : index - 1;
-                      handleDotClick(prevSlide);
+                      handleDotClick(prevSlide, e);
                     }}
                   >
                     ❮
@@ -146,7 +146,7 @@ const HomePage = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       const nextSlide = (index + 1) % featuredPackages.length;
-                      handleDotClick(nextSlide);
+                      handleDotClick(nextSlide, e);
                     }}
                   >
                     ❯
@@ -329,7 +329,7 @@ const HomePage = () => {
           <h2 className="text-4xl font-bold text-center mb-8">Hear From Our Happy Travelers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map(testimonial => (
-              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500  hover:cursor-pointer">
+              <div key={testimonial.id} className="card bg-base-200 shadow-xl p-6 flex flex-col items-center text-center hover:scale-102 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500  hover:cursor-pointer">
                 <div className="avatar mb-4">
                   <div className="w-20 rounded-full ring ring-success ring-offset-base-100 ring-offset-2">
                     <img src={testimonial.image} alt={testimonial.author} />

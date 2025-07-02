@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1";
 
-const usePackages = (searchTerm = '', page = 1, limit = 10) => {
+const usePackages = (searchTerm = '', page = 1, limit = 10, sort = '') => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,6 +19,10 @@ const usePackages = (searchTerm = '', page = 1, limit = 10) => {
         if (searchTerm) {
           url += `&search=${encodeURIComponent(searchTerm)}`;
         }
+        if (sort) {
+          url += `&sort=${sort}`;
+        }
+        console.log('Fetching packages from URL:', url);
         console.log('Fetching packages from URL:', url);
         const response = await axios.get(url);
         console.log('API Response:', response.data);
@@ -40,7 +44,7 @@ const usePackages = (searchTerm = '', page = 1, limit = 10) => {
     };
 
     fetchPackages();
-  }, [searchTerm, page, limit]);
+  }, [searchTerm, page, limit, sort]);
 
   return { packages, loading, error, totalPages, totalPackages };
 };

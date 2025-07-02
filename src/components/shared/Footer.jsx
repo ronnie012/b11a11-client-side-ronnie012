@@ -27,10 +27,11 @@ const Footer = () => {
         <nav className="flex flex-col items-center sm:items-start w-full">
           <h6 className="text-xl footer-title normal-case">Let's stay connected</h6>
           <div className='grid grid-flow-col gap-4 mt-2'> {/* DaisyUI's grid for social icons */}
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebook className="w-8 h-8 text-blue-400 hover:text-success cursor-pointer" /></a>
+            <a href="https://github.com/ronnie012" target="_blank" rel="noopener noreferrer"><FaLinkedin className="w-8 text-blue-400 h-8 hover:text-success cursor-pointer" /></a>
+            <a href="https://www.facebook.com/profile.php?id=61571101114481" target="_blank" rel="noopener noreferrer"><FaFacebook className="w-8 h-8 text-blue-400 hover:text-success cursor-pointer" /></a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter className="w-8 h-8 text-blue-400 hover:text-success cursor-pointer" /></a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram className="w-8 text-blue-400 h-8 hover:text-success cursor-pointer" /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin className="w-8 text-blue-400 h-8 hover:text-success cursor-pointer" /></a>
+            
           </div>
         </nav>
         {/* Section 4: Newsletter */}

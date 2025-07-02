@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet-async";
 import LoadingSpinner from "../../components/shared/LoadingSpinner";
 
 const AllPackagesPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -15,27 +14,32 @@ const AllPackagesPage = () => {
   const initialLimit = parseInt(queryParams.get('limit')) || 10;
   const initialSearchTerm = queryParams.get('search') || '';
 
+  const initialSort = queryParams.get('sort') || '';
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [itemsPerPage, setItemsPerPage] = useState(initialLimit);
   const [currentSearchTerm, setCurrentSearchTerm] = useState(initialSearchTerm);
+  const [sortOrder, setSortOrder] = useState(initialSort);
 
-  const { packages, loading, error, totalPages, totalPackages } = usePackages(currentSearchTerm, currentPage, itemsPerPage);
-
-  console.log('AllPackagesPage - packages:', packages);
-  console.log('AllPackagesPage - loading:', loading);
-  console.log('AllPackagesPage - error:', error);
+  const { packages, loading, error, totalPages } = usePackages(currentSearchTerm, currentPage, itemsPerPage, sortOrder);
 
   useEffect(() => {
     const params = new URLSearchParams();
     if (currentPage !== 1) params.set('page', currentPage);
     if (itemsPerPage !== 10) params.set('limit', itemsPerPage);
     if (currentSearchTerm) params.set('search', currentSearchTerm);
+    if (sortOrder) params.set('sort', sortOrder);
     navigate(`?${params.toString()}`, { replace: true });
-  }, [currentPage, itemsPerPage, currentSearchTerm, navigate]);
+  }, [currentPage, itemsPerPage, currentSearchTerm, sortOrder, navigate]);
 
   const handleSearchChange = (e) => {
     setCurrentSearchTerm(e.target.value);
     setCurrentPage(1); // Reset to first page on new search
+  };
+
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+    setCurrentPage(1); // Reset to first page on sort change
   };
 
   const handlePageChange = (page) => {
@@ -54,15 +58,31 @@ const AllPackagesPage = () => {
       </Helmet>
       <h1 className="xl:text-5xl lg:text-4xl md:text-3xl text-2xl text-success font-bold text-center mb-8">Explore Our Tour Packages</h1>
 
-      {/* Search Input */}
-      <div className="mb-12 flex justify-center">
-        <input
-          type="text"
-          placeholder="Search by tour name..."
-          className="input input-bordered w-full max-w-md"
-          value={currentSearchTerm}
-          onChange={handleSearchChange}
-        />
+      <div className="mb-8 flex flex-col items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+          <label htmlFor="search-packages" className="text-lg sm:text-2xl font-bold text-success whitespace-nowrap">Search Packages:</label>
+          <input
+            id="search-packages"
+            type="text"
+            placeholder="Search by tour name..."
+            className="input input-bordered w-full max-w-xs"
+            value={currentSearchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+          <label htmlFor="sort-packages" className="text-lg sm:text-2xl font-bold text-success whitespace-nowrap">Sort Packages:</label>
+          <select
+            id="sort-packages"
+            className="select select-bordered w-full max-w-xs text-success"
+            value={sortOrder}
+            onChange={handleSortChange}
+          >
+            <option value="">Sort by Price</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+        </div>
       </div>
 
       {/* Packages Display Area */}
