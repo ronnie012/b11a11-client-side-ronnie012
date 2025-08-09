@@ -38,7 +38,7 @@ const PackageCard = ({ packageData, showGuideEmail = true, showGuideContactNo = 
         {" "}
         {/* Added flex flex-col for better button positioning control */}
         <h2
-          className="card-title text-xl  font-bold truncate"
+          className="card-title text-lg font-bold truncate"
           title={tour_name}
         >
           {tour_name}
