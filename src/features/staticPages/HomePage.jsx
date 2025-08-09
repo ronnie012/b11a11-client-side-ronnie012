@@ -182,7 +182,7 @@ const HomePage = () => {
           {!packagesLoading && !packagesError && featuredPackages && featuredPackages.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {featuredPackages.map(pkg => (
-                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange- transition-all duration-1 ease-in-out hover:cursor-pointer">
+                <div key={pkg._id} className="card bg-base-200 shadow-xl hover:shadow-2xl hover:scale-102 ring-1 ring-green-400 hover:ring-4 hover:ring-green-500 hover:bg-orange- transition-all duration-1 ease-in-out hover:cursor-pointer">
                   <figure className="h-48 overflow-hidden">
                     <img src={pkg.image || "https://via.placeholder.com/400x225.png?text=Tour+Image"} alt={pkg.tour_name} className="w-full h-full object-cover rounded-lg" />
                   </figure>
