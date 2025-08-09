@@ -261,7 +261,7 @@ const HomePage = () => {
             {whyChooseUsFeatures.map((feature, index) => (
               <motion.div
                 key={feature.title}
-                className="card bg-base-100 shadow-xl text-center p-6 hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-2 ring-success hover:ring-4 hover:ring-orange-500  hover:cursor-pointer"
+                className="card bg-base-100 shadow-xl text-center p-6 hover:scale-110 transition-all duration-1 ease-in-out  hover:shadow-2xl ring-1 ring-success hover:ring-1 hover:ring-orange-500  hover:cursor-pointer"
                 initial={{ opacity: 0, y: 50 }} // Start invisible and 50px down
                 whileInView={{ opacity: 1, y: 0 }} // Animate to visible and original position when in view
                 viewport={{ once: true, amount: 0.3 }} // Trigger animation once when 30% of element is in view
