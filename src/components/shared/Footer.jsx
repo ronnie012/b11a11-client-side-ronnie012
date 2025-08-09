@@ -5,9 +5,9 @@ import logo from '../../assets/logo.png'; // Assuming your logo is here
 const Footer = () => {
   return (
     <footer className="bg-base-200 text-base-content text-center md:text-left rounded-xl px-4">
-      <div className="footer p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center md:justify-items-start">
+      <div className="footer p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 gap-6 justify-items-center md:justify-items-start">
         {/* Section 1: Links */}
-        <nav className="flex flex-col items-center sm:items-start w-full">
+        <nav className="flex flex-col items-center sm:items-start lg:gap-3.5 w-full">
           <h6 className="footer-title">Services</h6>
           <Link to="/about-us" className="link link-hover">About us</Link>
           <a href="#" className="link link-hover">Contact</a>
@@ -26,7 +26,7 @@ const Footer = () => {
         {/* Section 3: Social Links */}
         <nav className="flex flex-col items-center sm:items-start w-full">
           <h6 className="text-xl footer-title normal-case">Let's stay connected</h6>
-          <div className='grid grid-flow-col gap-4 mt-2'> {/* DaisyUI's grid for social icons */}
+          <div className='grid grid-flow-col lg:gap-6 gap-4 mt-2'> {/* DaisyUI's grid for social icons */}
             <a href="https://linkedin.com/in/md-sharful-islam" target="_blank" rel="noopener noreferrer"><FaLinkedin className="w-8 text-blue-400 h-8 hover:text-success cursor-pointer" /></a>
             <a href="https://github.com/ronnie012" target="_blank" rel="noopener noreferrer"><FaGithub className="w-8 text-blue-400 h-8 hover:text-success cursor-pointer" /></a>
             <a href="https://www.facebook.com/profile.php?id=61571101114481" target="_blank" rel="noopener noreferrer"><FaFacebook className="w-8 h-8 text-blue-400 hover:text-success cursor-pointer" /></a>
