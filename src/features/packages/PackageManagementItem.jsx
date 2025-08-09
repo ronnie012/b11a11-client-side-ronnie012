@@ -7,7 +7,7 @@ const PackageManagementItem = ({ pkg, onDelete, isDeleting }) => {
   const { _id, tour_name, image, price, departure_date, duration, destination, departure_location, guide_name, guide_contact_no, guide_email } = pkg;
 
   return (
-    <div className="card lg:card-side w-full bg-base-200 shadow-xl mb-8 rounded-2xl hover:shadow-2xl hover:scale-102 ring-2 ring-green-500 hover:ring-4 hover:ring-green-500 hover:bg-orange-  transition-all duration-1 ease-in-out hover:cursor-pointer">
+    <div className="card lg:card-side w-full bg-base-200 shadow-xl mb-8 rounded-2xl hover:shadow-2xl hover:scale-102 ring-1 ring-green-500 hover:ring-2 hover:ring-green-500 hover:bg-orange-  transition-all duration-1 ease-in-out hover:cursor-pointer">
       <figure className="w-full lg:w-1/4 h-48 lg:h-58 xl:h-60">
         <img 
           src={image || "https://via.placeholder.com/300x200.png?text=Tour+Image"} 
